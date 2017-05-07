@@ -1,0 +1,5 @@
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\OnlineShop.DB\bin\Debug\OnlineShop.DB.dacpac
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\OnlineShop.DB\bin\Debug\OnlineShop.DB.dll
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\OnlineShop.DB\bin\Debug\OnlineShop.DB.pdb
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\OnlineShop.DB\obj\Debug\OnlineShop.DB.dll
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\OnlineShop.DB\obj\Debug\OnlineShop.DB.pdb

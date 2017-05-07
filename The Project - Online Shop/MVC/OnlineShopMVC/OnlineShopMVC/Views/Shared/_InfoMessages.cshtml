@@ -1,0 +1,21 @@
+﻿@{
+    if (string.IsNullOrEmpty(ViewBag.ErrorMessage) == false)
+    {
+        <h3>
+            <span class="label label-danger">@ViewBag.ErrorMessage</span>
+        </h3>
+    }
+    if (string.IsNullOrEmpty(ViewBag.Message) == false)
+    {
+        <h3>
+            <span class="label label-success">@ViewBag.Message</span>
+        </h3>
+    }
+    if (string.IsNullOrEmpty(Convert.ToString(TempData["Message"])) == false)
+    {
+        <h3>
+            @TempData["Message"]
+        </h3>
+    }
+}
+

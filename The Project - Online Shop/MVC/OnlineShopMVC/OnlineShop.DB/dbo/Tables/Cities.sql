@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Cities] (
+    [ID]   INT           IDENTITY (1, 1) NOT NULL,
+    [Name] NVARCHAR (50) NOT NULL,
+    CONSTRAINT [PK_Cities] PRIMARY KEY CLUSTERED ([ID] ASC),
+    CONSTRAINT [UQ_Cities_Name] UNIQUE NONCLUSTERED ([Name] ASC)
+);
+

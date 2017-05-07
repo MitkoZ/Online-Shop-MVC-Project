@@ -1,0 +1,21 @@
+﻿@using OnlineShopMVC.Helpers
+<div>
+    @Html.Partial("_Logo")
+    @Html.ActionLink("PCs", "ReturnPCs", "Home")
+    &nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Laptops", "ReturnLaptops", "Home")
+    &nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Smartphones", "ReturnSmartphones", "Home")
+    &nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Login", "Login", "Home")
+    &nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Register", "Register", "Home")
+    &nbsp;&nbsp;&nbsp;
+    <a href="@Url.Action("Search", "Home")">
+        <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"search-icon.png"))" width="50" height="50"/>
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="@Url.Action("ReturnCart", "Home")">
+        <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"shopping-cart.png"))" width = "50" height = "50"/>
+    </a>
+</div>

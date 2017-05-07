@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="OnlineShopEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="OnlineShopModel.Category" />
+    <EntitySet Name="Cities" EntityType="OnlineShopModel.City" />
+    <EntitySet Name="PCs" EntityType="OnlineShopModel.PC" />
+    <EntitySet Name="Products" EntityType="OnlineShopModel.Product" />
+    <EntitySet Name="Sales" EntityType="OnlineShopModel.Sale" />
+    <EntitySet Name="Smartphones" EntityType="OnlineShopModel.Smartphone" />
+    <EntitySet Name="Users" EntityType="OnlineShopModel.User" />
+    <AssociationSet Name="FK_Products_Categories" Association="OnlineShopModel.FK_Products_Categories">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Cities" Association="OnlineShopModel.FK_Users_Cities">
+      <End Role="City" EntitySet="Cities" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PCs_Products" Association="OnlineShopModel.FK_PCs_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="PC" EntitySet="PCs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sales_Products" Association="OnlineShopModel.FK_Sales_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Sale" EntitySet="Sales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Smartphones_Products" Association="OnlineShopModel.FK_Smartphones_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Smartphone" EntitySet="Smartphones" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sales_Users" Association="OnlineShopModel.FK_Sales_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Sale" EntitySet="Sales" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="OnlineShopModel.FK_Products_Categories" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Users" Relationship="OnlineShopModel.FK_Users_Cities" FromRole="City" ToRole="User" />
+  </EntityType>
+  <EntityType Name="PC">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="VideoCard" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="OnlineShopModel.FK_PCs_Products" FromRole="PC" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Processor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RAM" Type="Int32" Nullable="false" />
+    <Property Name="Storage" Type="Int32" Nullable="false" />
+    <Property Name="OS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <NavigationProperty Name="Category" Relationship="OnlineShopModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="PCs" Relationship="OnlineShopModel.FK_PCs_Products" FromRole="Product" ToRole="PC" />
+    <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Products" FromRole="Product" ToRole="Sale" />
+    <NavigationProperty Name="Smartphones" Relationship="OnlineShopModel.FK_Smartphones_Products" FromRole="Product" ToRole="Smartphone" />
+  </EntityType>
+  <EntityType Name="Sale">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="DateBought" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Product" Relationship="OnlineShopModel.FK_Sales_Products" FromRole="Sale" ToRole="Product" />
+    <NavigationProperty Name="User" Relationship="OnlineShopModel.FK_Sales_Users" FromRole="Sale" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Smartphone">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Camera" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SIMCardType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="OnlineShopModel.FK_Smartphones_Products" FromRole="Smartphone" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CityID" Type="Int32" Nullable="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="City" Relationship="OnlineShopModel.FK_Users_Cities" FromRole="User" ToRole="City" />
+    <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Users" FromRole="User" ToRole="Sale" />
+  </EntityType>
+  <Association Name="FK_Products_Categories">
+    <End Type="OnlineShopModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="OnlineShopModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Cities">
+    <End Type="OnlineShopModel.City" Role="City" Multiplicity="1" />
+    <End Type="OnlineShopModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PCs_Products">
+    <End Type="OnlineShopModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="OnlineShopModel.PC" Role="PC" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PC">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sales_Products">
+    <End Type="OnlineShopModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="OnlineShopModel.Sale" Role="Sale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sale">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Smartphones_Products">
+    <End Type="OnlineShopModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="OnlineShopModel.Smartphone" Role="Smartphone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Smartphone">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sales_Users">
+    <End Type="OnlineShopModel.User" Role="User" Multiplicity="1" />
+    <End Type="OnlineShopModel.Sale" Role="Sale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sale">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

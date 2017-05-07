@@ -1,0 +1,10 @@
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\DataAccess.dll.config
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\EntityFramework.dll
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\EntityFramework.xml
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\PC\Desktop\University\2ra grupa\ASP.NET MVC\The Project - Online Shop\MVC\OnlineShopMVC\DataAccess\obj\Debug\DataAccess.pdb
