@@ -8,10 +8,15 @@
     [CityID]       INT            NOT NULL,
     [Address]      NVARCHAR (50)  NOT NULL,
     [CardNumber]   NVARCHAR (50)  NOT NULL,
+    [IsAdmin]      BIT            NOT NULL,
     CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([ID] ASC),
     CONSTRAINT [FK_Users_Cities] FOREIGN KEY ([CityID]) REFERENCES [dbo].[Cities] ([ID]),
     CONSTRAINT [UQ_Users_Username] UNIQUE NONCLUSTERED ([Username] ASC)
 );
+
+
+
+
 
 
 

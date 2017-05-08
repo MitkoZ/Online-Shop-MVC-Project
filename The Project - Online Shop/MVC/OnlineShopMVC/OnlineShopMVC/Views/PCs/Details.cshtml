@@ -1,0 +1,40 @@
+﻿@using OnlineShopMVC.ViewModels
+@model PCsViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<img src="@Url.Content(Model.ImagePath)" style="width:50%";/>
+<span>
+    Name:@Model.Name
+</span>
+<br />
+<span>
+    Processor:@Model.Processor
+</span>
+<br />
+<span>
+    RAM:@Model.RAM GB
+</span>
+<br />
+<span>
+    Operating system:@Model.OS
+</span>
+<br />
+<span>
+    Storage:@Model.Storage GB
+</span>
+<br />
+<span>
+    Video Card:@Model.VideoCard
+</span>
+<br />
+<span>
+    Processor:@Model.Processor
+</span>
+<br />
+<span>
+    Price:@Model.Price
+</span>
+@Html.Partial("_AddToCart")

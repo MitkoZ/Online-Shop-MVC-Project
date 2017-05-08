@@ -1,0 +1,26 @@
+﻿@using OnlineShopMVC.ViewModels
+@model List<PCsViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>PCs</h2>
+
+@foreach (PCsViewModel item in Model)
+{
+
+    <table width="100">
+        <tr width="30">
+            <td>
+                <a href="@Url.Action("Details","PCs",new RouteValueDictionary(new { id = item.ProductId }))">
+                    <img src="@Url.Content(item.ImagePath)" width="150" height="150"/>
+                </a>
+            </td>
+            <td>
+                @item.PCsInfo
+            </td>
+            <td style="font-size:30px; color:red;">
+                @item.Price leva
+            </td>
+        </tr>
+    </table>
+}

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Repositories;
+using OnlineShopMVC.Helpers;
+
 namespace OnlineShopMVC.Controllers
 {
     public class HomeController : Controller
@@ -16,11 +18,6 @@ namespace OnlineShopMVC.Controllers
             return View(); //home view
         }
         
-        public ActionResult ReturnPCs()
-        {
-            return View();
-        }
-
         public ActionResult ReturnLaptops()
         {
             return View();
@@ -30,12 +27,40 @@ namespace OnlineShopMVC.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            LoginUserSession.Current.Logout();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // here we have to check if the username exists in the database
+                UserRepository userRepository = new UserRepository();
+                User dbUser = userRepository.GetUserByNameAndPassword(viewModel.Username, viewModel.Password);
+
+                bool isUserExists = dbUser != null;
+                if (isUserExists)
+                {
+                    LoginUserSession.Current.SetCurrentUser(dbUser.ID, dbUser.Username);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid username and/or password");
+                }
+            }
+            return View();
+        }
         public ActionResult Search()
         {
             return View();
@@ -75,6 +100,7 @@ namespace OnlineShopMVC.Controllers
                 dbUser.CityID = viewModel.CityID;
                 dbUser.Address = viewModel.Address;
                 dbUser.CardNumber = viewModel.CardNumber;
+                dbUser.IsAdmin = false;
                 userRepository.RegisterUser(dbUser, viewModel.Password);
                 TempData["Message"] = "User was registered successfully";
                 return RedirectToAction("Index");

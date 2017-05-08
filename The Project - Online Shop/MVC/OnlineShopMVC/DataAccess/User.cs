@@ -29,6 +29,7 @@ namespace DataAccess
         public int CityID { get; set; }
         public string Address { get; set; }
         public string CardNumber { get; set; }
+        public bool IsAdmin { get; set; }
     
         public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

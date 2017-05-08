@@ -11,10 +11,11 @@ namespace OnlineShopMVC.ViewModels
     {
         [Required]
         [Remote("ValidateUsername", "Home", ErrorMessage = "This username is already used.")]
-        [MinLength(4, ErrorMessage = "Username must be at least 5 symbols")]
+        [MinLength(5, ErrorMessage = "Username must be at least 5 symbols")]
         public string Username { get; set; }
         [Required]
-        [MinLength(8, ErrorMessage = "Password must be at least 5 symbols")]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 symbols")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
         public string Name { get; set; }

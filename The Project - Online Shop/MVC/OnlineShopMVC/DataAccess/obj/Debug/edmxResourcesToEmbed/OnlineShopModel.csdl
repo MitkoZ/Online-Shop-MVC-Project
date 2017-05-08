@@ -70,6 +70,7 @@
     <Property Name="Storage" Type="Int32" Nullable="false" />
     <Property Name="OS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="ImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Category" Relationship="OnlineShopModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
     <NavigationProperty Name="PCs" Relationship="OnlineShopModel.FK_PCs_Products" FromRole="Product" ToRole="PC" />
     <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Products" FromRole="Product" ToRole="Sale" />
@@ -109,6 +110,7 @@
     <Property Name="CityID" Type="Int32" Nullable="false" />
     <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="City" Relationship="OnlineShopModel.FK_Users_Cities" FromRole="User" ToRole="City" />
     <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Users" FromRole="User" ToRole="Sale" />
   </EntityType>

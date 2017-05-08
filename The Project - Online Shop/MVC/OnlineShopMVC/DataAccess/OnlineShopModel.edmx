@@ -39,6 +39,7 @@
           <Property Name="Storage" Type="int" Nullable="false" />
           <Property Name="OS" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Sales">
           <Key>
@@ -71,6 +72,7 @@
           <Property Name="CityID" Type="int" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CardNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_PCs_Products">
           <End Role="Products" Type="Self.Products" Multiplicity="1" />
@@ -251,6 +253,7 @@
           <Property Name="Storage" Type="Int32" Nullable="false" />
           <Property Name="OS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Category" Relationship="OnlineShopModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="PCs" Relationship="OnlineShopModel.FK_PCs_Products" FromRole="Product" ToRole="PC" />
           <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Products" FromRole="Product" ToRole="Sale" />
@@ -290,6 +293,7 @@
           <Property Name="CityID" Type="Int32" Nullable="false" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="City" Relationship="OnlineShopModel.FK_Users_Cities" FromRole="User" ToRole="City" />
           <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Users" FromRole="User" ToRole="Sale" />
         </EntityType>
@@ -365,7 +369,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -399,6 +403,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="OnlineShopModel.Product">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="OS" ColumnName="OS" />
                 <ScalarProperty Name="Storage" ColumnName="Storage" />
@@ -433,6 +438,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="OnlineShopModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="CityID" ColumnName="CityID" />

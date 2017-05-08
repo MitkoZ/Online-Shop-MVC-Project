@@ -29,6 +29,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="OnlineShopModel.Product">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ImageName" ColumnName="ImageName" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="OS" ColumnName="OS" />
           <ScalarProperty Name="Storage" ColumnName="Storage" />
@@ -63,6 +64,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="OnlineShopModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
           <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="CityID" ColumnName="CityID" />

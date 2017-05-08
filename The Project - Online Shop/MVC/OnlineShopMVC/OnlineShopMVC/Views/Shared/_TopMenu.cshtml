@@ -1,15 +1,25 @@
 ﻿@using OnlineShopMVC.Helpers
 <div>
     @Html.Partial("_Logo")
-    @Html.ActionLink("PCs", "ReturnPCs", "Home")
+    @Html.ActionLink("PCs", "Index", "PCs")
     &nbsp;&nbsp;&nbsp;
     @Html.ActionLink("Laptops", "ReturnLaptops", "Home")
     &nbsp;&nbsp;&nbsp;
     @Html.ActionLink("Smartphones", "ReturnSmartphones", "Home")
     &nbsp;&nbsp;&nbsp;
-    @Html.ActionLink("Login", "Login", "Home")
+    @if (LoginUserSession.Current.IsAuthenticated)
+    {
+        @Html.ActionLink("Logout", "Logout", "Home")
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Home")
+    }
     &nbsp;&nbsp;&nbsp;
-    @Html.ActionLink("Register", "Register", "Home")
+    @if (!LoginUserSession.Current.IsAuthenticated)
+    {
+        @Html.ActionLink("Register", "Register", "Home")
+    }
     &nbsp;&nbsp;&nbsp;
     <a href="@Url.Action("Search", "Home")">
         <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"search-icon.png"))" width="50" height="50"/>
@@ -18,4 +28,10 @@
     <a href="@Url.Action("ReturnCart", "Home")">
         <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"shopping-cart.png"))" width = "50" height = "50"/>
     </a>
+    <span>
+        @if (LoginUserSession.Current.IsAuthenticated)
+        {
+            <span class="navbar-text" style="color:yellow; font-size:20px">Hello @LoginUserSession.Current.Username </span>
+        }
+    </span>
 </div>

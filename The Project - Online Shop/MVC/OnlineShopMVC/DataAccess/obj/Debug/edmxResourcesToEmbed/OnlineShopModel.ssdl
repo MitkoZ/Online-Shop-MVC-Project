@@ -34,6 +34,7 @@
     <Property Name="Storage" Type="int" Nullable="false" />
     <Property Name="OS" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Price" Type="money" Nullable="false" />
+    <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Sales">
     <Key>
@@ -66,6 +67,7 @@
     <Property Name="CityID" Type="int" Nullable="false" />
     <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="CardNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_PCs_Products">
     <End Role="Products" Type="Self.Products" Multiplicity="1" />
