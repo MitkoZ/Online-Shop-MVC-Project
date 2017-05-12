@@ -11,12 +11,11 @@ namespace OnlineShopMVC.Controllers
 {
     public class PCsController : Controller
     {
-        // GET: PCs
-        public ActionResult Index()
+        public ActionResult Index(int categoryID)
         {
             ProductRepository productRepo = new ProductRepository();
             PCsRepository pcsRepo = new PCsRepository();
-            List<Product> productsList=productRepo.GetAll();
+            List<Product> productsList=productRepo.GetAll().Where(item=>item.CategoryID==categoryID).ToList();
             List<PC> pcsList = pcsRepo.GetAll();
             List<PCsViewModel> pcsViewModel = new List<PCsViewModel>();
             foreach (Product product in productsList)
@@ -40,6 +39,25 @@ namespace OnlineShopMVC.Controllers
             PC pc = pcsRepository.GetByID(id);
             PCsViewModel pcViewModel = new PCsViewModel(product, pc);
             return View(pcViewModel);
+        }
+
+        public ActionResult Delete(int id = 0)
+        {
+            PCsRepository pcsRepo = new PCsRepository();
+            bool isDeleted1 = pcsRepo.DeleteByID(item=>item.ProductID==id);
+            ProductRepository productRepo = new ProductRepository();
+            bool isDeleted2 = productRepo.DeleteByID(id);
+
+            if (isDeleted1 == false || isDeleted2 == false)
+            {
+                TempData["ErrorMessage"] = "Could not find a PC with ID = " + id;
+            }
+            else
+            {
+                TempData["Message"] = "The PC was deleted successfully";
+            }
+
+            return RedirectToAction("Index","Home");
         }
     }
 }

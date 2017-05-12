@@ -1,0 +1,35 @@
+﻿@using OnlineShopMVC.Helpers;
+@{
+    ViewBag.Title = "ReturnCart";
+}
+
+<h2>Cart</h2>
+@if (CartSession.Current.Products.Count != 0)
+{
+    <table class="table" border="1">
+        @foreach (var product in CartSession.Current.Products)
+        {
+            <tr>
+                <td>
+                    @product.Name
+                </td>
+                <td>
+                    @product.Price
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteProduct","Products", new { productID = product.ID }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+        
+    </table> 
+       <a href="@Url.Action("Order", "Products")">
+            <img src = "@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory, "order-now.png"))" width = "500" height = "100" />
+       </a >
+}
+else
+{
+    <text>
+    You dont have any items in your cart
+    </text>
+}

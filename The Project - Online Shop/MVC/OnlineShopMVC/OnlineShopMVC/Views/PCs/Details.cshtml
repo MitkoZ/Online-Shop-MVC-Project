@@ -37,4 +37,4 @@
 <span>
     Price:@Model.Price
 </span>
-@Html.Partial("_AddToCart")
+@Html.Partial("_AddToCart", new ViewDataDictionary { { "ProductId", Model.ProductId } })

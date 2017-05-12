@@ -57,7 +57,6 @@
     <Compile Include="City.cs">
       <DependentUpon>OnlineShopModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="OnlineShopModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

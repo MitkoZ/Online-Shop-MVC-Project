@@ -1,11 +1,11 @@
 ﻿@using OnlineShopMVC.Helpers
 <div>
     @Html.Partial("_Logo")
-    @Html.ActionLink("PCs", "Index", "PCs")
+    @Html.ActionLink("PCs", "Index", "PCs", new { categoryID = 1 },null)
     &nbsp;&nbsp;&nbsp;
-    @Html.ActionLink("Laptops", "ReturnLaptops", "Home")
+    @Html.ActionLink("Laptops", "Index", "PCs",new {categoryID=2},null)
     &nbsp;&nbsp;&nbsp;
-    @Html.ActionLink("Smartphones", "ReturnSmartphones", "Home")
+    @Html.ActionLink("Smartphones", "Index", "Smartphones",new {categoryID=3},null)
     &nbsp;&nbsp;&nbsp;
     @if (LoginUserSession.Current.IsAuthenticated)
     {

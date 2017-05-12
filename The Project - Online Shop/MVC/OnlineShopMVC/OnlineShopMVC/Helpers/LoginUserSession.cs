@@ -11,6 +11,7 @@ namespace OnlineShopMVC.Helpers
             public int UserID { get; private set; }
             public string Username { get; private set; }
             public bool IsAuthenticated { get; private set; }
+            public bool isAdmin { get; private set; }
             #endregion
 
             #region Constructors
@@ -37,11 +38,12 @@ namespace OnlineShopMVC.Helpers
             #endregion
 
             #region public methods
-            public void SetCurrentUser(int userID, string username)
+            public void SetCurrentUser(int userID, string username,bool isAdmin)
             {
                 this.IsAuthenticated = true;
                 this.UserID = userID;
                 this.Username = username;
+                this.isAdmin = isAdmin;
             }
 
             public void Logout()
@@ -49,6 +51,7 @@ namespace OnlineShopMVC.Helpers
                 this.IsAuthenticated = false;
                 this.UserID = 0;
                 this.Username = string.Empty;
+                this.isAdmin = false;
             }
             #endregion
        }

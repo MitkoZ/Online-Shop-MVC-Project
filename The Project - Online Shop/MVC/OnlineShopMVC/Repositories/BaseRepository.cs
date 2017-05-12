@@ -63,6 +63,21 @@ namespace Repositories
             }
             return isDeleted;
         }
+        
+        public bool DeleteByID(Func<T,bool> filter = null)
+        {
+            bool isDeleted = false;
+            T dbItem = Context.Set<T>().FirstOrDefault(filter);
+            if (dbItem != null)
+            {
+                Context.Set<T>().Remove(dbItem);
+                int recordsChanged = Context.SaveChanges();
+                isDeleted = recordsChanged > 0;
+            }
+            return isDeleted;
+        }
+
+
         public abstract void Save(T item);
     }
 }

@@ -18,6 +18,7 @@ namespace OnlineShopMVC.Controllers
             return View(); //home view
         }
         
+        
         public ActionResult ReturnLaptops()
         {
             return View();
@@ -36,6 +37,7 @@ namespace OnlineShopMVC.Controllers
         public ActionResult Logout()
         {
             LoginUserSession.Current.Logout();
+            CartSession.Current.OnLogoutDelete();
             return RedirectToAction("Index");
         }
 
@@ -51,7 +53,7 @@ namespace OnlineShopMVC.Controllers
                 bool isUserExists = dbUser != null;
                 if (isUserExists)
                 {
-                    LoginUserSession.Current.SetCurrentUser(dbUser.ID, dbUser.Username);
+                    LoginUserSession.Current.SetCurrentUser(dbUser.ID, dbUser.Username,dbUser.IsAdmin);
                     return RedirectToAction("Index");
                 }
                 else
@@ -68,7 +70,14 @@ namespace OnlineShopMVC.Controllers
         
         public ActionResult ReturnCart()
         {
-            return View();
+            if (LoginUserSession.Current.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         [HttpGet]
@@ -119,9 +128,9 @@ namespace OnlineShopMVC.Controllers
             if (string.IsNullOrEmpty(email) == false)
             {
                 UserRepository userRepo = new UserRepository();
-                List<User> isUserExist = new List<User>();
-                isUserExist = (userRepo.GetAll().Where(user => user.Email == email)).ToList();
-                if (isUserExist.Capacity!=0)
+                User isUserExist = new User();
+                isUserExist = userRepo.GetAll().FirstOrDefault(user => user.Email == email);
+                if (!(isUserExist==null))
                 {
                     isEmailUsed = true;
                 }
@@ -135,9 +144,9 @@ namespace OnlineShopMVC.Controllers
             if (string.IsNullOrEmpty(username) == false)
             {
                 UserRepository userRepo = new UserRepository();
-                List<User> isUserExist = new List<User>();
-                isUserExist = (userRepo.GetAll().Where(user => user.Username == username)).ToList();
-                if (isUserExist.Capacity !=0)
+                User isUserExist = new User();
+                isUserExist = (userRepo.GetAll().FirstOrDefault(user => user.Username == username));
+                if (!(isUserExist == null))
                 {
                     isUsernameUsed = true;
                 }
