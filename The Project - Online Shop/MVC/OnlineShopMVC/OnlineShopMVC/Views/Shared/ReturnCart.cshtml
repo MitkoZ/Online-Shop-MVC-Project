@@ -14,7 +14,7 @@
                     @product.Name
                 </td>
                 <td>
-                    @product.Price
+                    @Math.Round(@product.Price,2) leva
                 </td>
                 <td>
                     @Html.ActionLink("Delete", "DeleteProduct","Products", new { productID = product.ID }, new { @class = "btn btn-danger btn-sm" })

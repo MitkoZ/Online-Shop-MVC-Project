@@ -20,10 +20,6 @@
       <End Role="Product" EntitySet="Products" />
       <End Role="PC" EntitySet="PCs" />
     </AssociationSet>
-    <AssociationSet Name="FK_Sales_Products" Association="OnlineShopModel.FK_Sales_Products">
-      <End Role="Product" EntitySet="Products" />
-      <End Role="Sale" EntitySet="Sales" />
-    </AssociationSet>
     <AssociationSet Name="FK_Smartphones_Products" Association="OnlineShopModel.FK_Smartphones_Products">
       <End Role="Product" EntitySet="Products" />
       <End Role="Smartphone" EntitySet="Smartphones" />
@@ -53,7 +49,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ProductID" Type="Int32" Nullable="false" />
     <Property Name="VideoCard" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Product" Relationship="OnlineShopModel.FK_PCs_Products" FromRole="PC" ToRole="Product" />
@@ -62,7 +58,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CategoryID" Type="Int32" Nullable="false" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Processor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -73,7 +69,6 @@
     <Property Name="ImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Category" Relationship="OnlineShopModel.FK_Products_Categories" FromRole="Product" ToRole="Category" />
     <NavigationProperty Name="PCs" Relationship="OnlineShopModel.FK_PCs_Products" FromRole="Product" ToRole="PC" />
-    <NavigationProperty Name="Sales" Relationship="OnlineShopModel.FK_Sales_Products" FromRole="Product" ToRole="Sale" />
     <NavigationProperty Name="Smartphones" Relationship="OnlineShopModel.FK_Smartphones_Products" FromRole="Product" ToRole="Smartphone" />
   </EntityType>
   <EntityType Name="Sale">
@@ -84,14 +79,13 @@
     <Property Name="ProductID" Type="Int32" Nullable="false" />
     <Property Name="UserID" Type="Int32" Nullable="false" />
     <Property Name="DateBought" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Product" Relationship="OnlineShopModel.FK_Sales_Products" FromRole="Sale" ToRole="Product" />
     <NavigationProperty Name="User" Relationship="OnlineShopModel.FK_Sales_Users" FromRole="Sale" ToRole="User" />
   </EntityType>
   <EntityType Name="Smartphone">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ProductID" Type="Int32" Nullable="false" />
     <Property Name="Camera" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="SIMCardType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -146,18 +140,6 @@
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="PC">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Sales_Products">
-    <End Type="OnlineShopModel.Product" Role="Product" Multiplicity="1" />
-    <End Type="OnlineShopModel.Sale" Role="Sale" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Sale">
         <PropertyRef Name="ProductID" />
       </Dependent>
     </ReferentialConstraint>

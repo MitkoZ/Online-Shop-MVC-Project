@@ -5,7 +5,12 @@
     ViewBag.Title = "Index";
 }
 <h2>Smartphones</h2>
-
+@if (LoginUserSession.Current.isAdmin)
+{
+    <div class="table-actions">
+        @Html.ActionLink("Add New Smartphone", "Edit", "Smartphones", null, new { @class = "btn btn-primary btn-sm" })
+    </div>
+}
 @foreach (SmartphonesViewModel item in Model)
 {
 
@@ -27,7 +32,7 @@
             {
                 <tr>
                     <td class="cell-small">
-                        @Html.ActionLink("Edit", "Edit", "Smartphones", new { id = item.ProductId }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Edit", "Edit", "Smartphones", new { ProductId = item.ProductId }, new { @class = "btn btn-primary btn-sm" })
                     </td>
                     <td class="cell-small">
                         @Html.ActionLink("Delete", "Delete", "Smartphones", new { id = item.ProductId }, new { onclick = "return confirm('Are you sure you want to delete this item?');", @class = "btn btn-danger btn-sm" })

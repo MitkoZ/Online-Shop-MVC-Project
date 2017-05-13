@@ -30,10 +30,17 @@ namespace Repositories
         {
             return Context.Set<T>().ToList();
         }
+
+        public T GetAll(Func<T, bool> filter)
+        {
+            return Context.Set<T>().FirstOrDefault(filter);
+        }
+            
         public T GetByID(int id)
         {
             return Context.Set<T>().Find(id);
         }
+
         public void Create(T item)
         {
             Context.Set<T>().Add(item);
@@ -64,7 +71,7 @@ namespace Repositories
             return isDeleted;
         }
         
-        public bool DeleteByID(Func<T,bool> filter = null)
+        public bool DeleteByID(Func<T,bool> filter)
         {
             bool isDeleted = false;
             T dbItem = Context.Set<T>().FirstOrDefault(filter);

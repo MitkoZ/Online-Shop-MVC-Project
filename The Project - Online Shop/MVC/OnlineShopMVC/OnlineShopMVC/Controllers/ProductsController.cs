@@ -47,7 +47,7 @@ namespace OnlineShopMVC.Controllers
                 sale.DateBought = DateTime.Now;
                 salesRepo.Save(sale);
             }
-            
+            products.Clear();
             return View("Index");
         }
     }

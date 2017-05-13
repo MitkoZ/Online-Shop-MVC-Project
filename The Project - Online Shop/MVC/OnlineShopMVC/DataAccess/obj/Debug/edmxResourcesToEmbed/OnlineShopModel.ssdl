@@ -18,7 +18,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductID" Type="int" Nullable="false" />
     <Property Name="VideoCard" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
@@ -26,7 +26,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CategoryID" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Processor" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -49,7 +49,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductID" Type="int" Nullable="false" />
     <Property Name="Camera" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="SIMCardType" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -90,18 +90,6 @@
       </Principal>
       <Dependent Role="Products">
         <PropertyRef Name="CategoryID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Sales_Products">
-    <End Role="Products" Type="Self.Products" Multiplicity="1" />
-    <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Sales">
-        <PropertyRef Name="ProductID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -156,10 +144,6 @@
     <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
       <End Role="Categories" EntitySet="Categories" />
       <End Role="Products" EntitySet="Products" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Sales_Products" Association="Self.FK_Sales_Products">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="Sales" EntitySet="Sales" />
     </AssociationSet>
     <AssociationSet Name="FK_Sales_Users" Association="Self.FK_Sales_Users">
       <End Role="Users" EntitySet="Users" />

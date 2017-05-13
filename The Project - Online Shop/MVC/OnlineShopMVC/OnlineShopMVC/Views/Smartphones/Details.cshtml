@@ -39,7 +39,9 @@
 <span>
     Sim Card Type:@Model.SIMCardType
 </span>
+<br />
 <span>
-    Price:@Model.Price
+    Price:@Model.Price leva
 </span>
+<br />
 @Html.Partial("_AddToCart", new ViewDataDictionary { { "ProductId", Model.ProductId } })

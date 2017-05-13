@@ -18,10 +18,9 @@ namespace DataAccess
         public Product()
         {
             this.PCs = new HashSet<PC>();
-            this.Sales = new HashSet<Sale>();
             this.Smartphones = new HashSet<Smartphone>();
         }
-
+    
         public int ID { get; set; }
         public int CategoryID { get; set; }
         public string Name { get; set; }
@@ -35,8 +34,6 @@ namespace DataAccess
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PC> PCs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Sale> Sales { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Smartphone> Smartphones { get; set; }
     }

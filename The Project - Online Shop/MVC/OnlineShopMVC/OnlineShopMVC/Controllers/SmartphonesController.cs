@@ -1,8 +1,10 @@
 ﻿using DataAccess;
+using OnlineShopMVC.Helpers;
 using OnlineShopMVC.ViewModels;
 using Repositories;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,14 +32,96 @@ namespace OnlineShopMVC.Controllers
             return View(smartphonesViewModel);
         }
 
+
+        [HttpGet]
+        public ActionResult Edit(int ProductId = 0)
+        {
+            SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel();
+            ProductRepository productRepo = new ProductRepository();
+            Product dbProduct = productRepo.GetAll(item => item.ID == ProductId);
+            SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
+            Smartphone dbSmartphone = smartphonesRepo.GetAll(item => item.ProductID == ProductId);
+            if (dbProduct != null && dbSmartphone != null)
+            {
+                smartphoneViewModel = new SmartphonesViewModel(dbProduct, dbSmartphone);
+            }
+            return View(smartphoneViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(SmartphonesViewModel viewModel)
+        {
+            if (viewModel == null)
+            {
+                TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
+                return RedirectToAction("Index","Home");
+            }
+            ProductRepository productRepo = new ProductRepository();
+            Product dbProduct = productRepo.GetAll(item => item.ID == viewModel.ProductId);
+            SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
+            Smartphone dbSmartphone = smartphonesRepo.GetAll(item => item.ProductID == viewModel.ProductId);
+            if (dbProduct == null)
+            {
+                dbProduct = new Product();
+            }
+
+            if (dbSmartphone == null)
+            {
+                dbSmartphone = new Smartphone();
+            }
+           
+            dbProduct.Name = viewModel.Name;
+            dbProduct.OS = viewModel.OS;
+            dbProduct.Price = (decimal)viewModel.Price;
+            dbProduct.Processor = viewModel.Processor;
+            dbProduct.RAM = viewModel.RAM;
+            dbProduct.Storage = viewModel.Storage;
+            dbSmartphone.Camera = viewModel.Camera;
+            dbSmartphone.SIMCardType = viewModel.SIMCardType;
+            HttpPostedFileBase file = Request.Files[0];
+            if (file.ContentLength > 0 && string.IsNullOrEmpty(file.FileName) == false)
+            {
+                string imagesPath = Server.MapPath(Constants.ImagesSmartphonesDirectory);
+                string uniqueFileName = string.Format("{0}_{1}", DateTime.Now.Ticks, file.FileName);
+                string savedFileName = Path.Combine(imagesPath, Path.GetFileName(uniqueFileName));
+                file.SaveAs(savedFileName);
+                dbProduct.ImageName = uniqueFileName;
+            }
+            dbProduct.CategoryID = 3;
+            productRepo.Save(dbProduct);
+            dbSmartphone.ProductID = dbProduct.ID;
+            smartphonesRepo.Save(dbSmartphone);
+            TempData["Message"] = "The smartphone was saved successfully";
+            return RedirectToAction("Index", "Home");
+        }
+
         public ActionResult Details(int id)
         {
             ProductRepository productRepo = new ProductRepository();
             SmartphonesRepository pcsRepository = new SmartphonesRepository();
             Product product = productRepo.GetByID(id);
-            Smartphone smartphone = pcsRepository.GetByID(id);
+            Smartphone smartphone = pcsRepository.GetAll(item=>item.ProductID==id);
             SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel(product, smartphone);
             return View(smartphoneViewModel);
+        }
+
+        public ActionResult Delete(int id = 0)
+        {
+            SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
+            bool isDeleted1 = smartphonesRepo.DeleteByID(item => item.ProductID == id);
+            ProductRepository productRepo = new ProductRepository();
+            bool isDeleted2 = productRepo.DeleteByID(id);
+
+            if (isDeleted1 == false || isDeleted2 == false)
+            {
+                TempData["ErrorMessage"] = "Could not find a smartphone with ID = " + id;
+            }
+            else
+            {
+                TempData["Message"] = "The smartphone was deleted successfully";
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

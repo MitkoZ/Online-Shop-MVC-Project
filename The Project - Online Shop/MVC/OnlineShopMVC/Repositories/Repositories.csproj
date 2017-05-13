@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="CategoryRepository.cs" />
     <Compile Include="CityRepository.cs" />
     <Compile Include="Helpers\PasswordManager.cs" />
     <Compile Include="IBaseRepository.cs" />

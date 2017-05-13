@@ -9,9 +9,16 @@ namespace Repositories
 {
     public class SmartphonesRepository : BaseRepository<Smartphone>
     {
-        public override void Save(Smartphone item)
+        public override void Save(Smartphone smartphone)
         {
-            throw new NotImplementedException();
+            if (smartphone.ID == 0)
+            {
+                base.Create(smartphone);
+            }
+            else
+            {
+                base.Update(smartphone, item => item.ID == smartphone.ID);
+            }
         }
     }
 }

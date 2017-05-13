@@ -188,6 +188,8 @@
     <Content Include="Views\Shared\_AddToCart.cshtml" />
     <Content Include="Views\Smartphones\Details.cshtml" />
     <Content Include="Views\Smartphones\Index.cshtml" />
+    <Content Include="Views\PCs\Edit.cshtml" />
+    <Content Include="Views\Smartphones\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

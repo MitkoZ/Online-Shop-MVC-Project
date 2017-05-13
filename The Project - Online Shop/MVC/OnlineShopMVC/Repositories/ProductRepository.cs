@@ -9,9 +9,16 @@ namespace Repositories
 {
     public class ProductRepository : BaseRepository<Product>
     {
-        public override void Save(Product item)
+        public override void Save(Product product)
         {
-            throw new NotImplementedException();
+            if (product.ID == 0)
+            {
+                base.Create(product);
+            }
+            else
+            {
+                base.Update(product, item => item.ID == product.ID);
+            }
         }
     }
 }

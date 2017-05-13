@@ -9,8 +9,16 @@ namespace Repositories
 {
     public class PCsRepository : BaseRepository<PC>
     {
-        public override void Save(PC item)
+        public override void Save(PC pc)
         {
+            if (pc.ID == 0)
+            {
+                base.Create(pc);
+            }
+            else
+            {
+                base.Update(pc, item => item.ID == pc.ID);
+            }
         }
     }
 }
