@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineShopMVC.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +17,13 @@ namespace OnlineShopMVC.ViewModels
         [Required]
         [MinLength(6, ErrorMessage = "Password must be at least 6 symbols")]
         [DataType(DataType.Password)]
+        [CustomPassword]
         public string Password { get; set; }
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Passwords do not match")]
+        [CustomPassword]
+        [Display(Name="Confirm Password")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

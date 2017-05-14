@@ -13,6 +13,7 @@ namespace OnlineShopMVC.Controllers
 {
     public class PCsController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index(int categoryID)
         {
             ProductRepository productRepo = new ProductRepository();
@@ -33,6 +34,7 @@ namespace OnlineShopMVC.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize]
         public ActionResult Edit(int ProductId = 0)
         {
             CategoryRepository categoryRepository = new CategoryRepository();
@@ -51,6 +53,7 @@ namespace OnlineShopMVC.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize]
         public ActionResult Edit(PCsViewModel viewModel)
         {
             if (viewModel == null)
@@ -102,7 +105,7 @@ namespace OnlineShopMVC.Controllers
             }
             return RedirectToAction("Index","Home");
         }
-
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             ProductRepository productRepo = new ProductRepository();
@@ -113,6 +116,7 @@ namespace OnlineShopMVC.Controllers
             return View(pcViewModel);
         }
 
+        [CustomAuthorize]
         public ActionResult Delete(int id = 0)
         {
             PCsRepository pcsRepo = new PCsRepository();

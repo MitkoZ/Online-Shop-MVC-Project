@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineShopMVC.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,10 @@ namespace OnlineShopMVC
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            CustomAuthorizeAttribute authorizeAttribute = new CustomAuthorizeAttribute();
+            authorizeAttribute.AllowAccessToUser = true;
+            GlobalFilters.Filters.Add(authorizeAttribute);
+
         }
     }
 }

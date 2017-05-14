@@ -12,28 +12,29 @@ namespace OnlineShopMVC.Controllers
 {
     public class HomeController : Controller
     {
-        
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(); //home view
         }
-        
-        
+
+        [AllowAnonymous]
         public ActionResult ReturnLaptops()
         {
             return View();
         }
-
+        [AllowAnonymous]
         public ActionResult ReturnSmartphones()
         {
             return View();
         }
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
-
+        
         public ActionResult Logout()
         {
             LoginUserSession.Current.Logout();
@@ -42,6 +43,7 @@ namespace OnlineShopMVC.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Login(LoginViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -63,24 +65,19 @@ namespace OnlineShopMVC.Controllers
             }
             return View();
         }
+        [AllowAnonymous]
         public ActionResult Search()
         {
             return View();
         }
-        
+
         public ActionResult ReturnCart()
         {
-            if (LoginUserSession.Current.IsAuthenticated)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
+             return View();
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Register()
         {
             // add the Cities to the Viewbag
@@ -89,7 +86,7 @@ namespace OnlineShopMVC.Controllers
             ViewBag.AllCities = new SelectList(allCities, "ID", "Name");
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(RegisterViewModel viewModel)
         {
@@ -122,6 +119,7 @@ namespace OnlineShopMVC.Controllers
                 return View();
             }
         }
+        [AllowAnonymous]
         public ActionResult ValidateEmail(string email)
         {
             bool isEmailUsed = false;
@@ -137,7 +135,7 @@ namespace OnlineShopMVC.Controllers
             }
             return Json(!isEmailUsed, JsonRequestBehavior.AllowGet);
         }
-
+        [AllowAnonymous]
         public ActionResult ValidateUsername(string username)
         {
             bool isUsernameUsed = false;

@@ -140,6 +140,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.validators-custom.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Home\Login.cshtml" />
@@ -163,6 +164,8 @@
     </Compile>
     <Compile Include="Helpers\CartSession.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Helpers\CustomPasswordAttribute.cs" />
     <Compile Include="Helpers\LoginUserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -190,6 +193,7 @@
     <Content Include="Views\Smartphones\Index.cshtml" />
     <Content Include="Views\PCs\Edit.cshtml" />
     <Content Include="Views\Smartphones\Edit.cshtml" />
+    <Content Include="Views\Shared\AccessDenied.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

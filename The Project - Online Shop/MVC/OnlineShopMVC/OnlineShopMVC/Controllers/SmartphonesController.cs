@@ -13,6 +13,7 @@ namespace OnlineShopMVC.Controllers
 {
     public class SmartphonesController : Controller
     {
+        [AllowAnonymous]//allows access to all kind of users
         public ActionResult Index(int categoryID)
         {
             ProductRepository productRepo = new ProductRepository();
@@ -34,6 +35,7 @@ namespace OnlineShopMVC.Controllers
 
 
         [HttpGet]
+        [CustomAuthorize]//allows access only to admins or if a given user has access
         public ActionResult Edit(int ProductId = 0)
         {
             SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel();
@@ -49,6 +51,7 @@ namespace OnlineShopMVC.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize]
         public ActionResult Edit(SmartphonesViewModel viewModel)
         {
             if (viewModel == null)
@@ -94,7 +97,7 @@ namespace OnlineShopMVC.Controllers
             TempData["Message"] = "The smartphone was saved successfully";
             return RedirectToAction("Index", "Home");
         }
-
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             ProductRepository productRepo = new ProductRepository();
@@ -104,7 +107,7 @@ namespace OnlineShopMVC.Controllers
             SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel(product, smartphone);
             return View(smartphoneViewModel);
         }
-
+        [CustomAuthorize] //you need to be authenticated and have given access to pass
         public ActionResult Delete(int id = 0)
         {
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();

@@ -13,7 +13,6 @@ namespace OnlineShopMVC.Controllers
     {
         public ActionResult AddToCart(int productID)
         {
-            
             if (LoginUserSession.Current.IsAuthenticated)
             {
                 ProductRepository productRepo = new ProductRepository();
@@ -28,7 +27,7 @@ namespace OnlineShopMVC.Controllers
             return View("Index");
         }
 
-        public ActionResult DeleteProduct(int productID)
+        public ActionResult DeleteProduct(int productID)//delete a product from the cart
         {
             CartSession.Current.DeleteProduct(productID);
             ViewBag.Message = "Product deleted from the cart successfully!";
@@ -47,7 +46,7 @@ namespace OnlineShopMVC.Controllers
                 sale.DateBought = DateTime.Now;
                 salesRepo.Save(sale);
             }
-            products.Clear();
+            CartSession.Current.OnLogoutDelete();
             return View("Index");
         }
     }
