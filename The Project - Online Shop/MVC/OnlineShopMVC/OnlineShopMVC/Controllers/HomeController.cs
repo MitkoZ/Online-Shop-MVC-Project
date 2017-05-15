@@ -18,16 +18,6 @@ namespace OnlineShopMVC.Controllers
             return View(); //home view
         }
 
-        [AllowAnonymous]
-        public ActionResult ReturnLaptops()
-        {
-            return View();
-        }
-        [AllowAnonymous]
-        public ActionResult ReturnSmartphones()
-        {
-            return View();
-        }
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()

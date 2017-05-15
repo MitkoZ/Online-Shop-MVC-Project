@@ -14,7 +14,7 @@ namespace OnlineShopMVC.Controllers
     public class PCsController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Index(int categoryID)
+        public ActionResult Index(int categoryID, string sortColumn, string direction)
         {
             ProductRepository productRepo = new ProductRepository();
             PCsRepository pcsRepo = new PCsRepository();
@@ -30,7 +30,28 @@ namespace OnlineShopMVC.Controllers
                     break;
                 }
             }
-            return View(pcsViewModel);
+            IQueryable<PCsViewModel> records = pcsViewModel.AsQueryable();
+            string sortColDirection = sortColumn + direction;
+            switch (sortColDirection)
+            {
+                case "Price":
+                    records = records.OrderBy(record => record.Price);
+                    break;
+                case "PriceDesc":
+                    records = records.OrderByDescending(record => record.Price);
+                    break;
+                case "NameDesc":
+                    records = records.OrderByDescending(record => record.Name);
+                    break;
+                default:
+                    records = records.OrderBy(record => record.Name);
+                    break;
+            }
+            List<PCsViewModel> recordsToList = records.ToList();
+            SearchViewModel <PCsViewModel> searchViewModel = new SearchViewModel<PCsViewModel>(recordsToList);
+            searchViewModel.LastSortColumn = sortColumn;
+            searchViewModel.LastSortDirection = direction;
+            return View(searchViewModel);
         }
 
         [HttpGet]

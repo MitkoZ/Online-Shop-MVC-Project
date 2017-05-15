@@ -14,7 +14,7 @@ namespace OnlineShopMVC.Controllers
     public class SmartphonesController : Controller
     {
         [AllowAnonymous]//allows access to all kind of users
-        public ActionResult Index(int categoryID)
+        public ActionResult Index(int categoryID, string sortColumn, string direction)
         {
             ProductRepository productRepo = new ProductRepository();
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
@@ -30,7 +30,28 @@ namespace OnlineShopMVC.Controllers
                     break;
                 }
             }
-            return View(smartphonesViewModel);
+            IQueryable<SmartphonesViewModel> records = smartphonesViewModel.AsQueryable();
+            string sortColDirection = sortColumn + direction;
+            switch (sortColDirection)
+            {
+                case "Price":
+                    records = records.OrderBy(record => record.Price);
+                    break;
+                case "PriceDesc":
+                    records = records.OrderByDescending(record => record.Price);
+                    break;
+                case "NameDesc":
+                    records = records.OrderByDescending(record => record.Name);
+                    break;
+                default:
+                    records = records.OrderBy(record => record.Name);
+                    break;
+            }
+            List<SmartphonesViewModel> recordsToList = records.ToList();
+            SearchViewModel<SmartphonesViewModel> searchViewModel = new SearchViewModel<SmartphonesViewModel>(recordsToList);
+            searchViewModel.LastSortColumn = sortColumn;
+            searchViewModel.LastSortDirection = direction;
+            return View(searchViewModel);
         }
 
 

@@ -1,6 +1,6 @@
 ﻿@using OnlineShopMVC.ViewModels
 @using OnlineShopMVC.Helpers;
-@model List<SmartphonesViewModel>
+@model SearchViewModel<SmartphonesViewModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -11,7 +11,9 @@
         @Html.ActionLink("Add New Smartphone", "Edit", "Smartphones", null, new { @class = "btn btn-primary btn-sm" })
     </div>
 }
-@foreach (SmartphonesViewModel item in Model)
+@Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"] })
+@Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"] })
+@foreach (SmartphonesViewModel item in Model.SearchItems)
 {
 
     <table width="100">

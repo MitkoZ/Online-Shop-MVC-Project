@@ -1,10 +1,10 @@
 ﻿@using OnlineShopMVC.ViewModels
 @using OnlineShopMVC.Helpers;
-@model List<PCsViewModel>
+@model SearchViewModel<PCsViewModel>
 @{
     ViewBag.Title = "Index";
 }
-@if (Model[0].CategoryID==1)
+@if (Model.SearchItems[0].CategoryID==1)
 {
     <h2>
         PCs
@@ -22,10 +22,11 @@ else
         @Html.ActionLink("Add New Computer", "Edit", "PCs", null, new { @class = "btn btn-primary btn-sm" })
     </div>
 }
-
-        @foreach (PCsViewModel item in Model)
+@Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"] })
+@Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"] })
+        @foreach (PCsViewModel item in Model.SearchItems)
         {
-
+            
             <table width="100">
                 <tr width="30">
                     <td>

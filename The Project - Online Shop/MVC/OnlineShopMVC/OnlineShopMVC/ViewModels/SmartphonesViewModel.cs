@@ -31,6 +31,8 @@ namespace OnlineShopMVC.ViewModels
         public string Camera { get; set; }
         [Required]
         public string SIMCardType { get; set; }
+        public string LastSortColumn { get; set; }
+        public string LastSortDirection { get; set; }
         public SmartphonesViewModel(Product product, Smartphone smartphone)
         {
             this.ProductId = product.ID;
