@@ -17,7 +17,7 @@ namespace OnlineShopMVC
             CustomAuthorizeAttribute authorizeAttribute = new CustomAuthorizeAttribute();
             authorizeAttribute.AllowAccessToUser = true;
             GlobalFilters.Filters.Add(authorizeAttribute);
-
+            GlobalFilters.Filters.Add(new CustomErrorHandlerAttribute());
         }
     }
 }

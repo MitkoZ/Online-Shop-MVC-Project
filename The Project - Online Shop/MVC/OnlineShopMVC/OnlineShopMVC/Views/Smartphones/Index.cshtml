@@ -4,7 +4,20 @@
 @{
     ViewBag.Title = "Index";
 }
+@if (Model.SearchItems.Count == 0)
+{
+    <h2>
+        No results found
+    </h2>
+}
 <h2>Smartphones</h2>
+@using (Html.BeginForm("Index", "Smartphones", FormMethod.Get))
+{
+    <text>Smartphones keywords: </text>
+    @Html.TextBox("keywords", Request.QueryString["keywords"])
+    @Html.Hidden("categoryID", 1)
+    <input type="submit" value="Search" />
+}
 @if (LoginUserSession.Current.isAdmin)
 {
     <div class="table-actions">

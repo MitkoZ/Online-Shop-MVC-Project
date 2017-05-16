@@ -165,6 +165,7 @@
     <Compile Include="Helpers\CartSession.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Helpers\CustomErrorHandlerAttribute.cs" />
     <Compile Include="Helpers\CustomPasswordAttribute.cs" />
     <Compile Include="Helpers\LoginUserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -195,6 +196,7 @@
     <Content Include="Views\PCs\Edit.cshtml" />
     <Content Include="Views\Smartphones\Edit.cshtml" />
     <Content Include="Views\Shared\AccessDenied.cshtml" />
+    <Content Include="Views\Shared\ServerError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,7 +14,7 @@ namespace OnlineShopMVC.Controllers
     public class SmartphonesController : Controller
     {
         [AllowAnonymous]//allows access to all kind of users
-        public ActionResult Index(int categoryID, string sortColumn, string direction)
+        public ActionResult Index(int categoryID, string sortColumn, string direction,string keywords)
         {
             ProductRepository productRepo = new ProductRepository();
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
@@ -31,6 +31,10 @@ namespace OnlineShopMVC.Controllers
                 }
             }
             IQueryable<SmartphonesViewModel> records = smartphonesViewModel.AsQueryable();
+            if (!string.IsNullOrEmpty(keywords))
+            {
+                records = records.Where(record => record.SmartphonesInfo.ToLower().Contains(keywords.ToLower()));
+            }
             string sortColDirection = sortColumn + direction;
             switch (sortColDirection)
             {

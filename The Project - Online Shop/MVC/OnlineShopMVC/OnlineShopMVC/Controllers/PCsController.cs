@@ -14,7 +14,7 @@ namespace OnlineShopMVC.Controllers
     public class PCsController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Index(int categoryID, string sortColumn, string direction)
+        public ActionResult Index(int categoryID, string sortColumn, string direction, string keywords)
         {
             ProductRepository productRepo = new ProductRepository();
             PCsRepository pcsRepo = new PCsRepository();
@@ -31,6 +31,10 @@ namespace OnlineShopMVC.Controllers
                 }
             }
             IQueryable<PCsViewModel> records = pcsViewModel.AsQueryable();
+            if (!string.IsNullOrEmpty(keywords))
+            {
+                records = records.Where(record => record.PCsInfo.ToLower().Contains(keywords.ToLower()));
+            }
             string sortColDirection = sortColumn + direction;
             switch (sortColDirection)
             {

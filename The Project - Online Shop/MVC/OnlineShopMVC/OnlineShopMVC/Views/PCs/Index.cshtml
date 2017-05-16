@@ -4,7 +4,13 @@
 @{
     ViewBag.Title = "Index";
 }
-@if (Model.SearchItems[0].CategoryID==1)
+@if (Model.SearchItems.Count==0)
+{
+    <h2>
+        No results found
+    </h2>
+}
+else if (Model.SearchItems[0].CategoryID==1)
 {
     <h2>
         PCs
@@ -21,6 +27,13 @@ else
     <div class="table-actions">
         @Html.ActionLink("Add New Computer", "Edit", "PCs", null, new { @class = "btn btn-primary btn-sm" })
     </div>
+}
+@using (Html.BeginForm("Index", "PCs", FormMethod.Get))
+{
+    <text>PC keywords: </text>
+    @Html.TextBox("keywords", Request.QueryString["keywords"])
+    @Html.Hidden("categoryID", 1)
+    <input type="submit" value="Search" />
 }
 @Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"] })
 @Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"] })
