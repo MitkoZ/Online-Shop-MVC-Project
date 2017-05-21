@@ -21,9 +21,9 @@
         @Html.ActionLink("Register", "Register", "Home")
     }
     &nbsp;&nbsp;&nbsp;
-    <a href="@Url.Action("Search", "Home")">
-        <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"search-icon.png"))" width="50" height="50"/>
-    </a>
+    <form class="searchbar-form" method="get" action="@Url.Action("Search","Home")">
+        <input type="text" name="keywords" class="searchbar" placeholder="Search..." style="background-image:url(@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory, "search-icon.png")))">
+    </form>
     &nbsp;&nbsp;&nbsp;
     <a href="@Url.Action("ReturnCart", "Home")">
         <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"shopping-cart.png"))" width = "50" height = "50"/>

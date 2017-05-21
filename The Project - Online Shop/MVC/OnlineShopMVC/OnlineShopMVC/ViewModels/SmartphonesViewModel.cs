@@ -11,6 +11,8 @@ namespace OnlineShopMVC.ViewModels
 {
     public class SmartphonesViewModel
     {
+        public List<SmartphonesViewModel> smartphonesViewModel { get; set; }
+
         public int ProductId { get; set; }
         [Required]
         public string Name { get; set; }
@@ -50,6 +52,27 @@ namespace OnlineShopMVC.ViewModels
         public SmartphonesViewModel()
         {
 
+        }
+
+        public SmartphonesViewModel(List<Product> smartphoneProduct, List<Smartphone> smartphones)
+        {
+            smartphonesViewModel = new List<SmartphonesViewModel>();
+            foreach (Smartphone smartphone in smartphones.Where(smartphone=>smartphone.ProductID==smartphone.Product.ID))
+            {
+                SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel();
+                smartphoneViewModel.ProductId = smartphone.ProductID;
+                smartphoneViewModel.OS = smartphone.Product.OS;
+                smartphoneViewModel.Processor = smartphone.Product.Processor;
+                smartphoneViewModel.Name = smartphone.Product.Name;
+                smartphoneViewModel.RAM = smartphone.Product.RAM;
+                smartphoneViewModel.Storage = smartphone.Product.Storage;
+                smartphoneViewModel.SmartphonesInfo = "Smartphone " + smartphone.Product.Name + " with processor " + smartphone.Product.Processor;
+                smartphoneViewModel.Price = (double)smartphone.Product.Price;
+                smartphoneViewModel.Camera = smartphone.Camera;
+                smartphoneViewModel.SIMCardType = smartphone.SIMCardType;
+                smartphoneViewModel.ImagePath = Path.Combine(Constants.ImagesSmartphonesDirectory, smartphone.Product.ImageName);
+                smartphonesViewModel.Add(smartphoneViewModel);
+            }
         }
     }
 }

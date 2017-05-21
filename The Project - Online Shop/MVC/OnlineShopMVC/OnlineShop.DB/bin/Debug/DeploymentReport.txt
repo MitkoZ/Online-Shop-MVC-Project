@@ -1,0 +1,26 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Categories] (Table)
+       [dbo].[Cities] (Table)
+       [dbo].[PCs] (Table)
+       [dbo].[Products] (Table)
+       [dbo].[Sales] (Table)
+       [dbo].[Smartphones] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[FK_PCs_Products] (Foreign Key)
+       [dbo].[FK_Products_Categories] (Foreign Key)
+       [dbo].[FK_Sales_Users] (Foreign Key)
+       [dbo].[FK_Smartphones_Products] (Foreign Key)
+       [dbo].[FK_Users_Cities] (Foreign Key)
+
+** Supporting actions

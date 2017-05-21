@@ -31,11 +31,16 @@ namespace Repositories
             return Context.Set<T>().ToList();
         }
 
-        public T GetAll(Func<T, bool> filter)
+        public T GetFirst(Func<T, bool> filter)
         {
             return Context.Set<T>().FirstOrDefault(filter);
         }
-            
+
+        public List<T> GetAll(Func<T, bool> filter)
+        {
+            return Context.Set<T>().Where(filter).ToList();
+        }
+
         public T GetByID(int id)
         {
             return Context.Set<T>().Find(id);

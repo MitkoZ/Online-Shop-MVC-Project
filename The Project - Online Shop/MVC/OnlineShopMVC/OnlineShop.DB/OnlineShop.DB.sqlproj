@@ -69,4 +69,7 @@
     <Build Include="dbo\Tables\Cities.sql" />
     <Build Include="dbo\Tables\Categories.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\DummyData.sql" />
+  </ItemGroup>
 </Project>

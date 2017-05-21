@@ -10,5 +10,6 @@ namespace OnlineShopMVC.Helpers
        public static readonly string ImagesToolsDirectory = @"~\Images\Tools";
        public static readonly string ImagesPCsDirectory = @"~\Images\PCs";
        public static readonly string ImagesSmartphonesDirectory = @"~\Images\Smartphones";
+       public const int DefaultPageSize = 3;
     }
 }

@@ -3,7 +3,9 @@
 @model SearchViewModel<PCsViewModel>
 @{
     ViewBag.Title = "Index";
+    var SetPagerItemVisibility = new Func<bool, string>(isVisible => (isVisible) ? "" : "visibility:hidden");
 }
+
 @if (Model.SearchItems.Count==0)
 {
     <h2>
@@ -28,6 +30,9 @@ else
         @Html.ActionLink("Add New Computer", "Edit", "PCs", null, new { @class = "btn btn-primary btn-sm" })
     </div>
 }
+<div>
+    Found @Model.TotalItemsCount Computers
+</div>
 @using (Html.BeginForm("Index", "PCs", FormMethod.Get))
 {
     <text>PC keywords: </text>
@@ -67,3 +72,26 @@ else
                 }
             </table>
         }
+<div>
+    <ul class="pager">
+        <li style="@SetPagerItemVisibility(Model.HasFirstPage)">
+            @Html.ActionLink(" << ", "Index", new { pageIndex = 1, categoryID = Request.QueryString["categoryID"] })
+        </li>
+
+        <li style="@SetPagerItemVisibility(Model.HasPrevPage)">
+            @Html.ActionLink(" < ", "Index", new { pageIndex = Model.CurrentPageIndex - 1, categoryID = Request.QueryString["categoryID"] })
+        </li>
+
+        <li>
+            <span>Page @Model.CurrentPageIndex of @Model.TotalPagesCount</span>
+        </li>
+
+        <li style="@SetPagerItemVisibility(Model.HasNextPage)">
+            @Html.ActionLink(" > ", "Index", new { pageIndex = Model.CurrentPageIndex + 1, categoryID = Request.QueryString["categoryID"] })
+        </li>
+
+        <li style="@SetPagerItemVisibility(Model.HasLastPage)">
+            @Html.ActionLink(" >> ", "Index", new { pageIndex = Model.TotalPagesCount, categoryID = Request.QueryString["categoryID"] })
+        </li>
+    </ul>
+</div>

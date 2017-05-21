@@ -14,7 +14,7 @@ namespace OnlineShopMVC.Controllers
     public class SmartphonesController : Controller
     {
         [AllowAnonymous]//allows access to all kind of users
-        public ActionResult Index(int categoryID, string sortColumn, string direction,string keywords)
+        public ActionResult Index(int categoryID, string sortColumn, string direction,string keywords, int pageSize = Constants.DefaultPageSize, int pageIndex = 1)
         {
             ProductRepository productRepo = new ProductRepository();
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
@@ -51,8 +51,12 @@ namespace OnlineShopMVC.Controllers
                     records = records.OrderBy(record => record.Name);
                     break;
             }
-            List<SmartphonesViewModel> recordsToList = records.ToList();
-            SearchViewModel<SmartphonesViewModel> searchViewModel = new SearchViewModel<SmartphonesViewModel>(recordsToList);
+            List<SmartphonesViewModel> recordsToList = records
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            int allRecordsCount = records.Count();
+            SearchViewModel<SmartphonesViewModel> searchViewModel = new SearchViewModel<SmartphonesViewModel>(recordsToList,pageSize,pageIndex, allRecordsCount);
             searchViewModel.LastSortColumn = sortColumn;
             searchViewModel.LastSortDirection = direction;
             return View(searchViewModel);
@@ -65,9 +69,9 @@ namespace OnlineShopMVC.Controllers
         {
             SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel();
             ProductRepository productRepo = new ProductRepository();
-            Product dbProduct = productRepo.GetAll(item => item.ID == ProductId);
+            Product dbProduct = productRepo.GetFirst(item => item.ID == ProductId);
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
-            Smartphone dbSmartphone = smartphonesRepo.GetAll(item => item.ProductID == ProductId);
+            Smartphone dbSmartphone = smartphonesRepo.GetFirst(item => item.ProductID == ProductId);
             if (dbProduct != null && dbSmartphone != null)
             {
                 smartphoneViewModel = new SmartphonesViewModel(dbProduct, dbSmartphone);
@@ -85,9 +89,9 @@ namespace OnlineShopMVC.Controllers
                 return RedirectToAction("Index","Home");
             }
             ProductRepository productRepo = new ProductRepository();
-            Product dbProduct = productRepo.GetAll(item => item.ID == viewModel.ProductId);
+            Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
-            Smartphone dbSmartphone = smartphonesRepo.GetAll(item => item.ProductID == viewModel.ProductId);
+            Smartphone dbSmartphone = smartphonesRepo.GetFirst(item => item.ProductID == viewModel.ProductId);
             if (dbProduct == null)
             {
                 dbProduct = new Product();
@@ -128,7 +132,7 @@ namespace OnlineShopMVC.Controllers
             ProductRepository productRepo = new ProductRepository();
             SmartphonesRepository pcsRepository = new SmartphonesRepository();
             Product product = productRepo.GetByID(id);
-            Smartphone smartphone = pcsRepository.GetAll(item=>item.ProductID==id);
+            Smartphone smartphone = pcsRepository.GetFirst(item=>item.ProductID==id);
             SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel(product, smartphone);
             return View(smartphoneViewModel);
         }

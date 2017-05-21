@@ -1,7 +1,73 @@
-﻿
+﻿@using OnlineShopMVC.ViewModels
+@model AllItemsSearchEngineViewModel
+@using OnlineShopMVC.Helpers
 @{
     ViewBag.Title = "Search";
 }
 
+@if (Model.computersViewModel.Count == 0 && Model.smartphonesViewModel.Count==0)
+{
+    <h2>
+        No results found
+    </h2>
+}
 <h2>Search</h2>
-
+@foreach (var computer in Model.computersViewModel)
+{
+    <table width="100">
+        <tr width="30">
+            <td>
+                <a href="@Url.Action("Details","PCs",new RouteValueDictionary(new { id = computer.ProductId }))">
+                    <img src="@Url.Content(computer.ImagePath)" width="150" height="150" />
+                </a>
+            </td>
+            <td>
+                @computer.PCsInfo
+            </td>
+            <td style="font-size:30px; color:red;">
+                @computer.Price leva
+            </td>
+        </tr>
+        @if (LoginUserSession.Current.isAdmin)
+                {
+            <tr>
+                <td class="cell-small">
+                    @Html.ActionLink("Edit", "Edit", "PCs", new { ProductId = computer.ProductId }, new { @class = "btn btn-primary btn-sm" })
+                </td>
+                <td class="cell-small">
+                    @Html.ActionLink("Delete", "Delete", "PCs", new { id = computer.ProductId }, new { onclick = "return confirm('Are you sure you want to delete this item?');", @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+        @foreach (var smartphone in Model.smartphonesViewModel)
+        {
+            <table width="100">
+        <tr width="30">
+            <td>
+                <a href="@Url.Action("Details","Smartphones",new RouteValueDictionary(new { id = smartphone.ProductId }))">
+                    <img src="@Url.Content(smartphone.ImagePath)" width="150" height="150" />
+                </a>
+            </td>
+            <td>
+                @smartphone.SmartphonesInfo
+            </td>
+            <td style="font-size:30px; color:red;">
+                @smartphone.Price leva
+            </td>
+        </tr>      
+            @if (LoginUserSession.Current.isAdmin)
+            {
+                <tr>
+                    <td class="cell-small">
+                        @Html.ActionLink("Edit", "Edit", "Smartphones", new { ProductId = smartphone.ProductId }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                    <td class="cell-small">
+                        @Html.ActionLink("Delete", "Delete", "Smartphones", new { id = smartphone.ProductId }, new { onclick = "return confirm('Are you sure you want to delete this item?');", @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        
+    </table>
+        }

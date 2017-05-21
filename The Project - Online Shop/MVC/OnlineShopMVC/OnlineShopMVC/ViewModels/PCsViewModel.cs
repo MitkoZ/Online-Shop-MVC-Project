@@ -11,6 +11,8 @@ namespace OnlineShopMVC.ViewModels
 {
     public class PCsViewModel
     {
+        public List<PCsViewModel> pcsViewModel { get; set; }
+
         public int ProductId { get; set; }
         [Required]
         public string Name { get; set; }
@@ -49,6 +51,27 @@ namespace OnlineShopMVC.ViewModels
             this.PCsInfo = product.Name + " with processor " + product.Processor;
             this.Price = (double)product.Price;
             this.ImagePath = Path.Combine(Constants.ImagesPCsDirectory, product.ImageName);
+        }
+
+        public PCsViewModel(List<Product> pcProduct, List<PC> computers)
+        {
+            pcsViewModel = new List<PCsViewModel>();
+            foreach (PC pc in computers.Where(pc=>pc.ProductID==pc.Product.ID))
+            {
+                PCsViewModel pcViewModel = new PCsViewModel();
+                pcViewModel.ProductId = pc.ProductID;
+                pcViewModel.CategoryID = pc.Product.CategoryID;
+                pcViewModel.OS = pc.Product.OS;
+                pcViewModel.Processor = pc.Product.Processor;
+                pcViewModel.Name = pc.Product.Name;
+                pcViewModel.RAM = pc.Product.RAM;
+                pcViewModel.Storage = pc.Product.Storage;
+                pcViewModel.VideoCard = pc.VideoCard;
+                pcViewModel.PCsInfo = pc.Product.Name + " with processor " + pc.Product.Processor;
+                pcViewModel.Price = (double)pc.Product.Price;
+                pcViewModel.ImagePath = Path.Combine(Constants.ImagesPCsDirectory, pc.Product.ImageName);
+                pcsViewModel.Add(pcViewModel);
+            }
         }
     }
 }

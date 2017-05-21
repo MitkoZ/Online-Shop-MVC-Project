@@ -56,9 +56,29 @@ namespace OnlineShopMVC.Controllers
             return View();
         }
         [AllowAnonymous]
-        public ActionResult Search()
+        public ActionResult Search(string keywords)
         {
-            return View();
+            PCsRepository pcRepo = new PCsRepository();
+            SmartphonesRepository smartphoneRepo = new SmartphonesRepository();
+            ProductRepository productRepo = new ProductRepository();
+            List<Product> pcProduct = productRepo.GetAll(pc => pc.CategoryID == 1 || pc.CategoryID == 2);
+            List<Product> smartphoneProduct=productRepo.GetAll(smartphone => smartphone.CategoryID == 3);
+            List<PC> computers=pcRepo.GetAll();
+            List<Smartphone> smartphones=smartphoneRepo.GetAll();
+            PCsViewModel computersViewModel = new PCsViewModel(pcProduct, computers);
+            SmartphonesViewModel smartphonesViewModel = new SmartphonesViewModel(smartphoneProduct, smartphones);
+            IQueryable<PCsViewModel> pcRecords=computersViewModel.pcsViewModel.AsQueryable();
+            IQueryable<SmartphonesViewModel> smartphoneRecords= smartphonesViewModel.smartphonesViewModel.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keywords))
+            {
+                pcRecords = pcRecords.Where(record => record.PCsInfo.ToLower().Contains(keywords.ToLower()));
+                smartphoneRecords = smartphoneRecords.Where(record => record.SmartphonesInfo.ToLower().Contains(keywords.ToLower()));
+            }
+            List<PCsViewModel> pcRecordsToList = pcRecords.ToList();
+            List<SmartphonesViewModel> smartphoneRecordsToList = smartphoneRecords.ToList();
+            AllItemsSearchEngineViewModel allItemsViewModel = new AllItemsSearchEngineViewModel(pcRecordsToList, smartphoneRecordsToList);
+            return View(allItemsViewModel);
         }
 
         public ActionResult ReturnCart()

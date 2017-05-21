@@ -14,7 +14,7 @@ namespace OnlineShopMVC.Controllers
     public class PCsController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Index(int categoryID, string sortColumn, string direction, string keywords)
+        public ActionResult Index(int categoryID, string sortColumn, string direction, string keywords, int pageSize = Constants.DefaultPageSize, int pageIndex = 1)
         {
             ProductRepository productRepo = new ProductRepository();
             PCsRepository pcsRepo = new PCsRepository();
@@ -51,8 +51,12 @@ namespace OnlineShopMVC.Controllers
                     records = records.OrderBy(record => record.Name);
                     break;
             }
-            List<PCsViewModel> recordsToList = records.ToList();
-            SearchViewModel <PCsViewModel> searchViewModel = new SearchViewModel<PCsViewModel>(recordsToList);
+            List<PCsViewModel> recordsToList = records
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            int allRecordsCount = records.Count();
+            SearchViewModel <PCsViewModel> searchViewModel = new SearchViewModel<PCsViewModel>(recordsToList,pageSize,pageIndex, allRecordsCount);
             searchViewModel.LastSortColumn = sortColumn;
             searchViewModel.LastSortDirection = direction;
             return View(searchViewModel);
@@ -67,9 +71,9 @@ namespace OnlineShopMVC.Controllers
             ViewBag.AllCategories = new SelectList(allCategories.Where(item =>item.Name!="Smartphones"), "ID", "Name");
             PCsViewModel pcViewModel = new PCsViewModel();
             ProductRepository productRepo = new ProductRepository();
-            Product dbProduct = productRepo.GetAll(item=>item.ID==ProductId);
+            Product dbProduct = productRepo.GetFirst(item=>item.ID==ProductId);
             PCsRepository pcsRepo = new PCsRepository();
-            PC dbPC = pcsRepo.GetAll(item=>item.ProductID==ProductId);
+            PC dbPC = pcsRepo.GetFirst(item=>item.ProductID==ProductId);
             if (dbProduct != null && dbPC != null)
             {
                 pcViewModel = new PCsViewModel(dbProduct,dbPC);
@@ -87,9 +91,9 @@ namespace OnlineShopMVC.Controllers
                 return RedirectToAction("Index","Home");
             }
             ProductRepository productRepo = new ProductRepository();
-            Product dbProduct = productRepo.GetAll(item => item.ID == viewModel.ProductId);
+            Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
             PCsRepository pcsRepo = new PCsRepository();
-            PC dbPC = pcsRepo.GetAll(item=>item.ProductID==viewModel.ProductId);
+            PC dbPC = pcsRepo.GetFirst(item=>item.ProductID==viewModel.ProductId);
             if (dbProduct == null)
             {
                 dbProduct = new Product();
@@ -136,7 +140,7 @@ namespace OnlineShopMVC.Controllers
             ProductRepository productRepo = new ProductRepository();
             PCsRepository pcsRepository = new PCsRepository();
             Product product = productRepo.GetByID(id);
-            PC pc = pcsRepository.GetAll(item=>item.ProductID==id);
+            PC pc = pcsRepository.GetFirst(item=>item.ProductID==id);
             PCsViewModel pcViewModel = new PCsViewModel(product, pc);
             return View(pcViewModel);
         }
