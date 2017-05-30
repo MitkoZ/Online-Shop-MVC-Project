@@ -12,17 +12,9 @@
         No results found
     </h2>
 }
-else if (Model.SearchItems[0].CategoryID==1)
-{
-    <h2>
-        PCs
-    </h2>
-}
 else
 {
-      <h2>
-          Laptops
-      </h2>
+    <h1>@Model.SearchItems[0].CategoryType</h1>
 }
 @if (LoginUserSession.Current.isAdmin)
 {
@@ -31,13 +23,13 @@ else
     </div>
 }
 <div>
-    Found @Model.TotalItemsCount Computers
+    Found @Model.TotalItemsCount @Model.SearchItems[0].CategoryType
 </div>
 @using (Html.BeginForm("Index", "PCs", FormMethod.Get))
 {
-    <text>PC keywords: </text>
+    <span> @Model.SearchItems[0].CategoryType keywords: </span>
     @Html.TextBox("keywords", Request.QueryString["keywords"])
-    @Html.Hidden("categoryID", 1)
+    @Html.Hidden("categoryID", Model.SearchItems[0].CategoryID)
     <input type="submit" value="Search" />
 }
 @Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"] })
@@ -75,11 +67,11 @@ else
 <div>
     <ul class="pager">
         <li style="@SetPagerItemVisibility(Model.HasFirstPage)">
-            @Html.ActionLink(" << ", "Index", new { pageIndex = 1, categoryID = Request.QueryString["categoryID"] })
+            @Html.ActionLink(" << ", "Index", new { pageIndex = 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
         </li>
 
         <li style="@SetPagerItemVisibility(Model.HasPrevPage)">
-            @Html.ActionLink(" < ", "Index", new { pageIndex = Model.CurrentPageIndex - 1, categoryID = Request.QueryString["categoryID"] })
+            @Html.ActionLink(" < ", "Index", new { pageIndex = Model.CurrentPageIndex - 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
         </li>
 
         <li>
@@ -87,11 +79,11 @@ else
         </li>
 
         <li style="@SetPagerItemVisibility(Model.HasNextPage)">
-            @Html.ActionLink(" > ", "Index", new { pageIndex = Model.CurrentPageIndex + 1, categoryID = Request.QueryString["categoryID"] })
+            @Html.ActionLink(" > ", "Index", new { pageIndex = Model.CurrentPageIndex + 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection})
         </li>
 
         <li style="@SetPagerItemVisibility(Model.HasLastPage)">
-            @Html.ActionLink(" >> ", "Index", new { pageIndex = Model.TotalPagesCount, categoryID = Request.QueryString["categoryID"] })
+            @Html.ActionLink(" >> ", "Index", new { pageIndex = Model.TotalPagesCount, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
         </li>
     </ul>
 </div>

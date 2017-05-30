@@ -172,6 +172,7 @@
     <Compile Include="Helpers\LoginUserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AllItemsSearchEngineViewModel.cs" />
+    <Compile Include="ViewModels\ISearchItem.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PCsViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />

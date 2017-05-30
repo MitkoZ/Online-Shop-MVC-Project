@@ -51,11 +51,11 @@ namespace Repositories
             Context.Set<T>().Add(item);
             Context.SaveChanges();
         }
-        public void Update(T item, Func<T, bool> findByIDPredecate)
+        public void Update(T item, Func<T, bool> findByIDPredicate)
         {
             var local = Context.Set<T>()
                          .Local
-                         .FirstOrDefault(findByIDPredecate);
+                         .FirstOrDefault(findByIDPredicate);
             if (local != null)
             {
                 Context.Entry(local).State = EntityState.Detached;
@@ -76,7 +76,7 @@ namespace Repositories
             return isDeleted;
         }
         
-        public bool DeleteByID(Func<T,bool> filter)
+        public bool DeleteByPredicate(Func<T,bool> filter)
         {
             bool isDeleted = false;
             T dbItem = Context.Set<T>().FirstOrDefault(filter);

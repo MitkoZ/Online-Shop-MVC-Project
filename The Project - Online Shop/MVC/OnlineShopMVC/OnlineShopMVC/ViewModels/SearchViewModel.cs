@@ -5,7 +5,7 @@ using System.Web;
 
 namespace OnlineShopMVC.ViewModels
 {
-    public class SearchViewModel<T> where T:class
+    public class SearchViewModel<T> where T:ISearchItem
     {
         public string LastSortColumn { get; set; }
         public string LastSortDirection { get; set; }

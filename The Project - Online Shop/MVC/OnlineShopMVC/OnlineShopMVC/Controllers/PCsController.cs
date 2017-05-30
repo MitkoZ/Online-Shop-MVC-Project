@@ -74,6 +74,7 @@ namespace OnlineShopMVC.Controllers
             Product dbProduct = productRepo.GetFirst(item=>item.ID==ProductId);
             PCsRepository pcsRepo = new PCsRepository();
             PC dbPC = pcsRepo.GetFirst(item=>item.ProductID==ProductId);
+            
             if (dbProduct != null && dbPC != null)
             {
                 pcViewModel = new PCsViewModel(dbProduct,dbPC);
@@ -90,49 +91,57 @@ namespace OnlineShopMVC.Controllers
                 TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
                 return RedirectToAction("Index","Home");
             }
-            ProductRepository productRepo = new ProductRepository();
-            Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
-            PCsRepository pcsRepo = new PCsRepository();
-            PC dbPC = pcsRepo.GetFirst(item=>item.ProductID==viewModel.ProductId);
-            if (dbProduct == null)
+            if (viewModel.ImagePath == null)
             {
-                dbProduct = new Product();
+                ModelState.AddModelError("", "Please add a picture for the product");
             }
-            
-            if (dbPC == null)
+            if (ModelState.IsValid)
             {
-                dbPC = new PC();
-            }
-            dbProduct.CategoryID = viewModel.CategoryID;
-            dbProduct.Name = viewModel.Name;
-            dbProduct.OS = viewModel.OS;
-            dbProduct.Price = (decimal)viewModel.Price;
-            dbProduct.Processor = viewModel.Processor;
-            dbProduct.RAM = viewModel.RAM;
-            dbProduct.Storage = viewModel.Storage;
-            dbPC.VideoCard = viewModel.VideoCard;
-            HttpPostedFileBase file = Request.Files[0];
-            if (file.ContentLength > 0 && string.IsNullOrEmpty(file.FileName) == false)
-             {
-                 string imagesPath = Server.MapPath(Constants.ImagesPCsDirectory);
-                 string uniqueFileName = string.Format("{0}_{1}", DateTime.Now.Ticks, file.FileName);
-                 string savedFileName = Path.Combine(imagesPath, Path.GetFileName(uniqueFileName));
-                 file.SaveAs(savedFileName);
-                 dbProduct.ImageName = uniqueFileName;
-             }
+                ProductRepository productRepo = new ProductRepository();
+                Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
+                PCsRepository pcsRepo = new PCsRepository();
+                PC dbPC = pcsRepo.GetFirst(item => item.ProductID == viewModel.ProductId);
+                if (dbProduct == null)
+                {
+                    dbProduct = new Product();
+                }
 
-            productRepo.Save(dbProduct);
-            dbPC.ProductID = dbProduct.ID;
-            pcsRepo.Save(dbPC);
-            if (dbProduct.CategoryID==1)
-            {
-                TempData["Message"] = "The PC was saved successfully";
+                if (dbPC == null)
+                {
+                    dbPC = new PC();
+                }
+                dbProduct.CategoryID = viewModel.CategoryID;
+                dbProduct.Name = viewModel.Name;
+                dbProduct.OS = viewModel.OS;
+                dbProduct.Price = (decimal)viewModel.Price;
+                dbProduct.Processor = viewModel.Processor;
+                dbProduct.RAM = viewModel.RAM;
+                dbProduct.Storage = viewModel.Storage;
+                dbPC.VideoCard = viewModel.VideoCard;
+                HttpPostedFileBase file = Request.Files[0];
+                if (file.ContentLength > 0 && string.IsNullOrEmpty(file.FileName) == false)
+                {
+                    string imagesPath = Server.MapPath(Constants.ImagesPCsDirectory);
+                    string uniqueFileName = string.Format("{0}_{1}", DateTime.Now.Ticks, file.FileName);
+                    string savedFileName = Path.Combine(imagesPath, Path.GetFileName(uniqueFileName));
+                    file.SaveAs(savedFileName);
+                    dbProduct.ImageName = uniqueFileName;
+                }
+
+                productRepo.Save(dbProduct);
+                dbPC.ProductID = dbProduct.ID;
+                pcsRepo.Save(dbPC);
+                if (dbProduct.CategoryID == 1)
+                {
+                    TempData["Message"] = "The PC was saved successfully";
+                }
+                else
+                {
+                    TempData["Message"] = "The laptop was saved successfully";
+                }
+                return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                TempData["Message"] = "The laptop was saved successfully";
-            }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Edit","PCs");
         }
         [AllowAnonymous]
         public ActionResult Details(int id)
@@ -149,7 +158,7 @@ namespace OnlineShopMVC.Controllers
         public ActionResult Delete(int id = 0)
         {
             PCsRepository pcsRepo = new PCsRepository();
-            bool isDeleted1 = pcsRepo.DeleteByID(item=>item.ProductID==id);
+            bool isDeleted1 = pcsRepo.DeleteByPredicate(item=>item.ProductID==id);
             ProductRepository productRepo = new ProductRepository();
             bool isDeleted2 = productRepo.DeleteByID(id);
 

@@ -83,48 +83,56 @@ namespace OnlineShopMVC.Controllers
         [CustomAuthorize]
         public ActionResult Edit(SmartphonesViewModel viewModel)
         {
-            if (viewModel == null)
+            if (viewModel.ImagePath==null)
             {
-                TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
-                return RedirectToAction("Index","Home");
+                ModelState.AddModelError("", "Please add a picture for the product");
             }
-            ProductRepository productRepo = new ProductRepository();
-            Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
-            SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
-            Smartphone dbSmartphone = smartphonesRepo.GetFirst(item => item.ProductID == viewModel.ProductId);
-            if (dbProduct == null)
+            if (ModelState.IsValid)
             {
-                dbProduct = new Product();
-            }
+                if (viewModel == null)
+                {
+                    TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
+                    return RedirectToAction("Index", "Home");
+                }
+                ProductRepository productRepo = new ProductRepository();
+                Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
+                SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
+                Smartphone dbSmartphone = smartphonesRepo.GetFirst(item => item.ProductID == viewModel.ProductId);
+                if (dbProduct == null)
+                {
+                    dbProduct = new Product();
+                }
 
-            if (dbSmartphone == null)
-            {
-                dbSmartphone = new Smartphone();
+                if (dbSmartphone == null)
+                {
+                    dbSmartphone = new Smartphone();
+                }
+
+                dbProduct.Name = viewModel.Name;
+                dbProduct.OS = viewModel.OS;
+                dbProduct.Price = (decimal)viewModel.Price;
+                dbProduct.Processor = viewModel.Processor;
+                dbProduct.RAM = viewModel.RAM;
+                dbProduct.Storage = viewModel.Storage;
+                dbSmartphone.Camera = viewModel.Camera;
+                dbSmartphone.SIMCardType = viewModel.SIMCardType;
+                HttpPostedFileBase file = Request.Files[0];
+                if (file.ContentLength > 0 && string.IsNullOrEmpty(file.FileName) == false)
+                {
+                    string imagesPath = Server.MapPath(Constants.ImagesSmartphonesDirectory);
+                    string uniqueFileName = string.Format("{0}_{1}", DateTime.Now.Ticks, file.FileName);
+                    string savedFileName = Path.Combine(imagesPath, Path.GetFileName(uniqueFileName));
+                    file.SaveAs(savedFileName);
+                    dbProduct.ImageName = uniqueFileName;
+                }
+                dbProduct.CategoryID = 3;
+                productRepo.Save(dbProduct);
+                dbSmartphone.ProductID = dbProduct.ID;
+                smartphonesRepo.Save(dbSmartphone);
+                TempData["Message"] = "The smartphone was saved successfully";
+                return RedirectToAction("Index", "Home");
             }
-           
-            dbProduct.Name = viewModel.Name;
-            dbProduct.OS = viewModel.OS;
-            dbProduct.Price = (decimal)viewModel.Price;
-            dbProduct.Processor = viewModel.Processor;
-            dbProduct.RAM = viewModel.RAM;
-            dbProduct.Storage = viewModel.Storage;
-            dbSmartphone.Camera = viewModel.Camera;
-            dbSmartphone.SIMCardType = viewModel.SIMCardType;
-            HttpPostedFileBase file = Request.Files[0];
-            if (file.ContentLength > 0 && string.IsNullOrEmpty(file.FileName) == false)
-            {
-                string imagesPath = Server.MapPath(Constants.ImagesSmartphonesDirectory);
-                string uniqueFileName = string.Format("{0}_{1}", DateTime.Now.Ticks, file.FileName);
-                string savedFileName = Path.Combine(imagesPath, Path.GetFileName(uniqueFileName));
-                file.SaveAs(savedFileName);
-                dbProduct.ImageName = uniqueFileName;
-            }
-            dbProduct.CategoryID = 3;
-            productRepo.Save(dbProduct);
-            dbSmartphone.ProductID = dbProduct.ID;
-            smartphonesRepo.Save(dbSmartphone);
-            TempData["Message"] = "The smartphone was saved successfully";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Edit", "Smartphones");
         }
         [AllowAnonymous]
         public ActionResult Details(int id)
@@ -140,7 +148,7 @@ namespace OnlineShopMVC.Controllers
         public ActionResult Delete(int id = 0)
         {
             SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
-            bool isDeleted1 = smartphonesRepo.DeleteByID(item => item.ProductID == id);
+            bool isDeleted1 = smartphonesRepo.DeleteByPredicate(item => item.ProductID == id);
             ProductRepository productRepo = new ProductRepository();
             bool isDeleted2 = productRepo.DeleteByID(id);
 

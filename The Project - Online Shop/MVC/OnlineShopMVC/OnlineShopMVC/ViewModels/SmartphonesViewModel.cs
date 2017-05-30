@@ -9,17 +9,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShopMVC.ViewModels
 {
-    public class SmartphonesViewModel
+    public class SmartphonesViewModel:ISearchItem
     {
         public List<SmartphonesViewModel> smartphonesViewModel { get; set; }
 
         public int ProductId { get; set; }
+        public int CategoryID { get; set; }
         [Required]
         public string Name { get; set; }
         public string SmartphonesInfo { get; set; }//for the front view
         [Required]
         public double Price { get; set; }
-        [Required]
         public string ImagePath { get; set; }
         [Required]
         public string Processor { get; set; }
@@ -33,11 +33,15 @@ namespace OnlineShopMVC.ViewModels
         public string Camera { get; set; }
         [Required]
         public string SIMCardType { get; set; }
+        public string CategoryType { get; set; }
         public string LastSortColumn { get; set; }
         public string LastSortDirection { get; set; }
+
+
         public SmartphonesViewModel(Product product, Smartphone smartphone)
         {
             this.ProductId = product.ID;
+            this.CategoryID = product.CategoryID;
             this.OS = product.OS;
             this.Processor = product.Processor;
             this.Name = product.Name;
@@ -48,6 +52,7 @@ namespace OnlineShopMVC.ViewModels
             this.Camera = smartphone.Camera;
             this.SIMCardType = smartphone.SIMCardType;
             this.ImagePath = Path.Combine(Constants.ImagesSmartphonesDirectory, product.ImageName);
+            this.CategoryType = product.Category.Name;
         }
         public SmartphonesViewModel()
         {

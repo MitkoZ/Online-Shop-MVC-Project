@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace OnlineShopMVC.ViewModels
 {
-    public class PCsViewModel
+    public class PCsViewModel:ISearchItem
     {
         public List<PCsViewModel> pcsViewModel { get; set; }
 
@@ -33,6 +34,7 @@ namespace OnlineShopMVC.ViewModels
         public string VideoCard { get; set; }
         [Required]
         public int CategoryID { get; set; }
+        public string CategoryType { get; set; }
         public PCsViewModel()
         {
 
@@ -51,6 +53,7 @@ namespace OnlineShopMVC.ViewModels
             this.PCsInfo = product.Name + " with processor " + product.Processor;
             this.Price = (double)product.Price;
             this.ImagePath = Path.Combine(Constants.ImagesPCsDirectory, product.ImageName);
+            this.CategoryType = product.Category.Name;
         }
 
         public PCsViewModel(List<Product> pcProduct, List<PC> computers)
