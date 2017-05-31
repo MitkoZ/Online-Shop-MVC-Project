@@ -3,33 +3,25 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Online Shop</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <link href="~/Content/SearchBar.css" rel="stylesheet" />
     <link href="~/Content/Pager.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    @*for the navbar*@
+    <!-- Material Design Bootstrap -->
+    <link href="~/Content/mdb.min.css" rel="stylesheet" />
+    <!-- Custom Style -->
+    <link href="~/Content/style.min.css" rel="stylesheet" />
+    <!-- Prism -->
+    <link href="~/Content/prism.min.css" rel="stylesheet" />
+    <link href="~/Content/Navbar.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="navbar navbar-fixed-top" style="background-color:green">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div>
-                    @Html.Partial("_TopMenu")
-                </div>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-        </div>
-    </div>
-
+        @Html.Partial("_NavigationBar")
     <div class="container body-content">
         @RenderBody()
         @Html.Partial("_InfoMessages")
@@ -38,10 +30,17 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.validators-custom.js"></script>
+
+    @*for the navbar*@
+    <script src="~/Scripts/mdb.min.js"></script>
+    <script src="~/Scripts/prism.min.js"></script>
+    <script src="~/Scripts/navbar.js"></script>
+    <script src="~/Scripts/tether.min.js"></script>
 </body>
 </html>

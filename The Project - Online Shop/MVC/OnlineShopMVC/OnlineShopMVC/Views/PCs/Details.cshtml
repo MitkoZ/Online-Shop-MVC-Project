@@ -5,7 +5,8 @@
 }
 
 <h2>Details</h2>
-<img src="@Url.Content(Model.ImagePath)" style="width:50%";/>
+<img src="@Url.Content(Model.ImagePath)" style="width:15%";/>
+<br />
 <span>
     Name:@Model.Name
 </span>
@@ -37,4 +38,5 @@
 <span>
     Price:@Model.Price leva
 </span>
+<br />
 @Html.Partial("_AddToCart", new ViewDataDictionary { { "ProductId", Model.ProductId } })

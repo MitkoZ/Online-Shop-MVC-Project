@@ -83,17 +83,13 @@ namespace OnlineShopMVC.Controllers
         [CustomAuthorize]
         public ActionResult Edit(SmartphonesViewModel viewModel)
         {
-            if (viewModel.ImagePath==null)
+            if (viewModel == null)
             {
-                ModelState.AddModelError("", "Please add a picture for the product");
+                TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
+                return RedirectToAction("Index", "Home");
             }
             if (ModelState.IsValid)
             {
-                if (viewModel == null)
-                {
-                    TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
-                    return RedirectToAction("Index", "Home");
-                }
                 ProductRepository productRepo = new ProductRepository();
                 Product dbProduct = productRepo.GetFirst(item => item.ID == viewModel.ProductId);
                 SmartphonesRepository smartphonesRepo = new SmartphonesRepository();
@@ -132,7 +128,7 @@ namespace OnlineShopMVC.Controllers
                 TempData["Message"] = "The smartphone was saved successfully";
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Edit", "Smartphones");
+            return RedirectToAction("Edit", "Smartphones", viewModel);
         }
         [AllowAnonymous]
         public ActionResult Details(int id)

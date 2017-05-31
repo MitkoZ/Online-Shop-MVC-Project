@@ -161,6 +161,49 @@ namespace OnlineShopMVC.Controllers
             }
             return Json(!isUsernameUsed, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        [CustomAuthorize]
+        public ActionResult AddCity()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddCity(CityViewModel viewModel)
+        {
+            if (string.IsNullOrWhiteSpace(viewModel.Name))
+            {
+                ModelState.AddModelError("", "Please enter a valid city name");
+                return View();
+            }
+            if (ModelState.IsValid)
+            {
+                CityRepository cityRepo = new CityRepository();
+                City cityInput = new City();
+                cityInput.Name = viewModel.Name;
+                cityRepo.Save(cityInput);
+                TempData["Message"] = "City added successfully";
+                return RedirectToAction("Index", "Home");
+            }
+            
+            return RedirectToAction("AddCity","Home");
+        }
         
+        public ActionResult ValidateCity(string Name)
+        {
+            bool isCityExist = false;
+            if (string.IsNullOrEmpty(Name) == false)
+            {
+                CityRepository cityRepository = new CityRepository();
+                City dbCity = new City();
+                dbCity = cityRepository.GetAll().FirstOrDefault(category => category.Name == Name);
+                if (!(dbCity == null))
+                {
+                    isCityExist = true;
+                }
+            }
+            return Json(!isCityExist, JsonRequestBehavior.AllowGet);
+        }
     }
 }

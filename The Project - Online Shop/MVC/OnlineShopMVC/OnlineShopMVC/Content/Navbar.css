@@ -1,0 +1,8 @@
+﻿a{
+    color: rgba(255,255,255,.8);
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    background-color:transparent;
+   color:inherit;
+}

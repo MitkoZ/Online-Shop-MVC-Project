@@ -2,3 +2,10 @@
         border-radius: 0 !important;
         border: 0 !important;
     }
+.pager li a {
+    background-color:lightblue;
+}
+
+.pager li a:hover {
+    background-color:red;
+}

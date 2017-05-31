@@ -20,7 +20,6 @@ namespace OnlineShopMVC.ViewModels
         public string PCsInfo { get; set; }//for the front view
         [Required]
         public double Price { get; set; }
-        [Required]
         public string ImagePath { get; set; }
         [Required]
         public string Processor { get; set; }

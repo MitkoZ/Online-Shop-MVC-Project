@@ -91,10 +91,6 @@ namespace OnlineShopMVC.Controllers
                 TempData["ErrorMessage"] = "Ooooops, a serious error occured: No ViewModel.";
                 return RedirectToAction("Index","Home");
             }
-            if (viewModel.ImagePath == null)
-            {
-                ModelState.AddModelError("", "Please add a picture for the product");
-            }
             if (ModelState.IsValid)
             {
                 ProductRepository productRepo = new ProductRepository();
@@ -141,7 +137,7 @@ namespace OnlineShopMVC.Controllers
                 }
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Edit","PCs");
+            return RedirectToAction("Edit","PCs", viewModel);
         }
         [AllowAnonymous]
         public ActionResult Details(int id)
