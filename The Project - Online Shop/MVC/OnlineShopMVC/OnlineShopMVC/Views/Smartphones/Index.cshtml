@@ -28,8 +28,10 @@
     @Html.Hidden("categoryID", Model.SearchItems[0].CategoryID)
     <input type="submit" value="Search" class="btn btn-primary btn-sm normal-button"/>
 }
-@Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"] })
-@Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"] })
+<div class="btn-group">
+    @Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"],keywords=Request.QueryString["keywords"] }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"], keywords = Request.QueryString["keywords"] }, new { @class = "btn btn-primary" })
+</div>
 @foreach (SmartphonesViewModel item in Model.SearchItems)
 {
 

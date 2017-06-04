@@ -5,14 +5,14 @@
     ViewBag.Title = "Search";
 }
 
-@if (Model.computersViewModel.Count == 0 && Model.smartphonesViewModel.Count==0)
+@if (Model.ComputersViewModel.Count == 0 && Model.SmartphonesViewModel.Count==0)
 {
     <h2>
         No results found
     </h2>
 }
 <h2>Search</h2>
-@foreach (var computer in Model.computersViewModel)
+@foreach (var computer in Model.ComputersViewModel)
 {
     <table width="100">
         <tr width="30">
@@ -41,7 +41,7 @@
         }
     </table>
 }
-        @foreach (var smartphone in Model.smartphonesViewModel)
+        @foreach (var smartphone in Model.SmartphonesViewModel)
         {
             <table width="100">
         <tr width="30">

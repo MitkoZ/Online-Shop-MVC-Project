@@ -55,9 +55,7 @@ namespace OnlineShopMVC.Controllers
                 .Take(pageSize)
                 .ToList();
             int allRecordsCount = records.Count();
-            SearchViewModel<SmartphonesViewModel> searchViewModel = new SearchViewModel<SmartphonesViewModel>(recordsToList,pageSize,pageIndex, allRecordsCount);
-            searchViewModel.LastSortColumn = sortColumn;
-            searchViewModel.LastSortDirection = direction;
+            SearchViewModel<SmartphonesViewModel> searchViewModel = new SearchViewModel<SmartphonesViewModel>(recordsToList,pageSize,pageIndex, allRecordsCount, sortColumn, direction);
             return View(searchViewModel);
         }
 
@@ -87,7 +85,7 @@ namespace OnlineShopMVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
             HttpPostedFileBase file = Request.Files[0];
-            if (string.IsNullOrEmpty(file.FileName) && string.IsNullOrEmpty(viewModel.ImageName))
+            if (string.IsNullOrEmpty(file.FileName) && string.IsNullOrEmpty(viewModel.ImagePath))
             {
                 ModelState.AddModelError("", "Please add an image");
             }
@@ -137,6 +135,7 @@ namespace OnlineShopMVC.Controllers
             
             return View(viewModel);
         }
+
         [AllowAnonymous]
         public ActionResult Details(int id)
         {
@@ -146,10 +145,14 @@ namespace OnlineShopMVC.Controllers
             SmartphonesViewModel smartphoneViewModel = new SmartphonesViewModel(product, smartphone);
             return View(smartphoneViewModel);
         }
+
         [CustomAuthorize] //you need to be authenticated and have given access to pass
         public ActionResult Delete(int id = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork();
+            string imageName = unitOfWork.ProductRepository.GetFirst(item => item.ID == id).ImageName;
+            string imagePath=Path.Combine(Server.MapPath(Constants.ImagesSmartphonesDirectory), imageName);
+            System.IO.File.Delete(imagePath);
             unitOfWork.SmartphonesRepository.DeleteByPredicate(item => item.ProductID == id);
             unitOfWork.ProductRepository.DeleteByID(id);
             bool isDeleted = unitOfWork.Save() > 0;

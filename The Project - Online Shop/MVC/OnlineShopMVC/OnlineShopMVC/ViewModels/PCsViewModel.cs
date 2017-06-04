@@ -34,7 +34,6 @@ namespace OnlineShopMVC.ViewModels
         [Required]
         public int CategoryID { get; set; }
         public string CategoryType { get; set; }
-        public string ImageName { get; private set; }
 
         public PCsViewModel()
         {
@@ -43,7 +42,6 @@ namespace OnlineShopMVC.ViewModels
 
         public PCsViewModel(Product product, PC pc)
         {
-            this.ImageName = product.ImageName;
             this.ProductId = product.ID;
             this.CategoryID = product.CategoryID;
             this.OS = product.OS;

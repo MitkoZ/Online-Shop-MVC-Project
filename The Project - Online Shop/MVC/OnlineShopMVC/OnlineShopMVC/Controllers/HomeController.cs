@@ -88,7 +88,6 @@ namespace OnlineShopMVC.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            // add the Cities to the Viewbag
             UnitOfWork unitOfWork = new UnitOfWork();
             List<City> allCities = unitOfWork.CityRepository.GetAll();
             ViewBag.AllCities = new SelectList(allCities, "ID", "Name");
@@ -116,8 +115,15 @@ namespace OnlineShopMVC.Controllers
                 dbUser.CardNumber = viewModel.CardNumber;
                 dbUser.IsAdmin = false;
                 unitOfWork.UserRepository.RegisterUser(dbUser, viewModel.Password);
-                unitOfWork.Save();
-                TempData["Message"] = "User was registered successfully";
+                bool isSaved=unitOfWork.Save()>0;
+                if (isSaved)
+                {
+                    TempData["Message"] = "User was registered successfully";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Ooops something went wrong";
+                }
                 return RedirectToAction("Index");
             }
             else

@@ -55,9 +55,7 @@ namespace OnlineShopMVC.Controllers
                 .Take(pageSize)
                 .ToList();
             int allRecordsCount = records.Count();
-            SearchViewModel <PCsViewModel> searchViewModel = new SearchViewModel<PCsViewModel>(recordsToList,pageSize,pageIndex, allRecordsCount);
-            searchViewModel.LastSortColumn = sortColumn;
-            searchViewModel.LastSortDirection = direction;
+            SearchViewModel <PCsViewModel> searchViewModel = new SearchViewModel<PCsViewModel>(recordsToList,pageSize,pageIndex, allRecordsCount, sortColumn, direction);
             return View(searchViewModel);
         }
 
@@ -89,7 +87,7 @@ namespace OnlineShopMVC.Controllers
                 return RedirectToAction("Index","Home");
             }
             HttpPostedFileBase file = Request.Files[0];
-            if (string.IsNullOrEmpty(file.FileName) && string.IsNullOrEmpty(viewModel.ImageName))
+            if (string.IsNullOrEmpty(file.FileName) && string.IsNullOrEmpty(viewModel.ImagePath))
             {
                 ModelState.AddModelError("", "Please add an image");
             }
@@ -156,6 +154,9 @@ namespace OnlineShopMVC.Controllers
         public ActionResult Delete(int id = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork();
+            string imageName=unitOfWork.ProductRepository.GetFirst(item=>item.ID==id).ImageName;
+            string imagePath = Path.Combine(Server.MapPath(Constants.ImagesPCsDirectory), imageName);
+            System.IO.File.Delete(imagePath);
             unitOfWork.PCsRepository.DeleteByPredicate(item=>item.ProductID==id);
             unitOfWork.ProductRepository.DeleteByID(id);
             bool isDeleted = unitOfWork.Save() > 0;

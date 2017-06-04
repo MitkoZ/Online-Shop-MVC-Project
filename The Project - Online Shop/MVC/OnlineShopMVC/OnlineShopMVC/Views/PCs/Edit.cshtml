@@ -12,7 +12,6 @@
         
         <hr />
         @Html.HiddenFor(model => model.ProductId)
-        @Html.HiddenFor(model=>model.ImagePath)
         <div class="form-group">
            @if (Model.CategoryType==null)
            {
@@ -32,7 +31,6 @@
                 {
                     <img src="@Url.Content(Model.ImagePath)" width="300" alt="Image for @Model.Name" />
                     @Html.HiddenFor(model=>model.ImagePath)
-                    @Html.HiddenFor(model=>model.ImageName)
                 }        
                 <input type="file" name="imageToUpload"/>
             </div>
@@ -103,7 +101,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-primary normal-button" />
-                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Cancel", "Index","Home", null, new { @class = "btn btn-danger" })
             </div>
         </div>
         

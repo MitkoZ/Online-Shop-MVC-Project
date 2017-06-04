@@ -7,14 +7,14 @@ namespace OnlineShopMVC.ViewModels
 {
     public class AllItemsSearchEngineViewModel
     {
-        public List<PCsViewModel> computersViewModel;
-        public List<SmartphonesViewModel> smartphonesViewModel;
+        public List<PCsViewModel> ComputersViewModel;
+        public List<SmartphonesViewModel> SmartphonesViewModel;
         public string LastSortColumn { get; set; }
         public string LastSortDirection { get; set; }
         public AllItemsSearchEngineViewModel(List<PCsViewModel> computersViewModel, List<SmartphonesViewModel> smartphonesViewModel)
         {
-            this.computersViewModel = computersViewModel;
-            this.smartphonesViewModel = smartphonesViewModel;
+            this.ComputersViewModel = computersViewModel;
+            this.SmartphonesViewModel = smartphonesViewModel;
         }
         
     }

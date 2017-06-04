@@ -17,7 +17,14 @@
             @TempData["Message"]
         </h3>
     }
-
+    if (string.IsNullOrEmpty(Convert.ToString(TempData["ErrorMessage"])) == false)
+    {
+        <h3>
+           <span class="label label-danger">
+               @TempData["ErrorMessage"]
+           </span>
+        </h3>
+    }
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 }
 

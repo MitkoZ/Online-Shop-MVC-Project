@@ -32,58 +32,61 @@ else
     @Html.Hidden("categoryID", Model.SearchItems[0].CategoryID)
     <input type="submit" value="Search" class="btn btn-primary btn-sm normal-button"/>
 }
-@Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"] })
-@Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"] })
-        @foreach (PCsViewModel item in Model.SearchItems)
-        {
-            
-            <table width="100">
-                <tr width="30">
-                    <td>
-                        <a href="@Url.Action("Details","PCs",new RouteValueDictionary(new { id = item.ProductId }))">
-                            <img src="@Url.Content(item.ImagePath)" width="150" height="150" />
-                        </a>
+
+<div class="btn-group">
+    @Html.ActionLink("Name", "Index", new { sortColumn = "Name", direction = Model.LastSortColumn == "Name" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Name"], categoryID = Request.QueryString["CategoryID"], keywords = Request.QueryString["keywords"] }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Price", "Index", new { sortColumn = "Price", direction = Model.LastSortColumn == "Price" && Model.LastSortDirection != "Desc" ? "Desc" : "", Name = Request.QueryString["Price"], categoryID = Request.QueryString["CategoryID"], keywords = Request.QueryString["keywords"] }, new { @class = "btn btn-primary" })
+</div>
+    @foreach (PCsViewModel item in Model.SearchItems)
+    {
+
+        <table width="100">
+            <tr width="30">
+                <td>
+                    <a href="@Url.Action("Details","PCs",new RouteValueDictionary(new { id = item.ProductId }))">
+                        <img src="@Url.Content(item.ImagePath)" width="150" height="150" />
+                    </a>
+                </td>
+                <td>
+                    @item.PCsInfo
+                </td>
+                <td style="font-size:30px; color:red;">
+                    @item.Price leva
+                </td>
+            </tr>
+            @if (LoginUserSession.Current.isAdmin)
+                {
+                <tr>
+                    <td class="cell-small">
+                        @Html.ActionLink("Edit", "Edit", "PCs", new { ProductId = item.ProductId }, new { @class = "btn btn-primary btn-sm" })
                     </td>
-                    <td>
-                        @item.PCsInfo
-                    </td>
-                    <td style="font-size:30px; color:red;">
-                        @item.Price leva
+                    <td class="cell-small">
+                        @Html.ActionLink("Delete", "Delete", "PCs", new { id = item.ProductId }, new { onclick = "return confirm('Are you sure you want to delete this item?');", @class = "btn btn-danger btn-sm" })
                     </td>
                 </tr>
-                @if (LoginUserSession.Current.isAdmin)
-                {
-                    <tr>
-                        <td class="cell-small">
-                            @Html.ActionLink("Edit", "Edit", "PCs", new { ProductId = item.ProductId }, new { @class = "btn btn-primary btn-sm" })
-                        </td>
-                        <td class="cell-small">
-                            @Html.ActionLink("Delete", "Delete", "PCs", new { id = item.ProductId }, new { onclick = "return confirm('Are you sure you want to delete this item?');", @class = "btn btn-danger btn-sm" })
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
-<div>
-    <ul class="pager">
-        <li style="@SetPagerItemVisibility(Model.HasFirstPage)">
-            @Html.ActionLink(" << ", "Index", new { pageIndex = 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
-        </li>
+            }
+        </table>
+    }
+    <div>
+        <ul class="pager">
+            <li style="@SetPagerItemVisibility(Model.HasFirstPage)">
+                @Html.ActionLink(" << ", "Index", new { pageIndex = 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
+            </li>
 
-        <li style="@SetPagerItemVisibility(Model.HasPrevPage)">
-            @Html.ActionLink(" < ", "Index", new { pageIndex = Model.CurrentPageIndex - 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
-        </li>
+            <li style="@SetPagerItemVisibility(Model.HasPrevPage)">
+                @Html.ActionLink(" < ", "Index", new { pageIndex = Model.CurrentPageIndex - 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
+            </li>
 
-        <li>
-            <span>Page @Model.CurrentPageIndex of @Model.TotalPagesCount</span>
-        </li>
+            <li>
+                <span>Page @Model.CurrentPageIndex of @Model.TotalPagesCount</span>
+            </li>
 
-        <li style="@SetPagerItemVisibility(Model.HasNextPage)">
-            @Html.ActionLink(" > ", "Index", new { pageIndex = Model.CurrentPageIndex + 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection})
-        </li>
+            <li style="@SetPagerItemVisibility(Model.HasNextPage)">
+                @Html.ActionLink(" > ", "Index", new { pageIndex = Model.CurrentPageIndex + 1, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
+            </li>
 
-        <li style="@SetPagerItemVisibility(Model.HasLastPage)">
-            @Html.ActionLink(" >> ", "Index", new { pageIndex = Model.TotalPagesCount, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
-        </li>
-    </ul>
-</div>
+            <li style="@SetPagerItemVisibility(Model.HasLastPage)">
+                @Html.ActionLink(" >> ", "Index", new { pageIndex = Model.TotalPagesCount, categoryID = Request.QueryString["categoryID"], sortColumn = Model.LastSortColumn, direction = Model.LastSortDirection })
+            </li>
+        </ul>
+    </div>

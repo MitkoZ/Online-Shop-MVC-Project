@@ -32,10 +32,12 @@ namespace OnlineShopMVC.ViewModels
             get { return CurrentPageIndex < TotalPagesCount; }
         }
 
-        public SearchViewModel(List<T> SearchItems, int pageSize, int pageIndex, int recordsCount)
+        public SearchViewModel(List<T> searchItems, int pageSize, int pageIndex, int recordsCount, string lastSortColumn, string lastSortDirection)
         {
             this.PageSize = pageSize;
-            this.SearchItems = SearchItems;
+            this.SearchItems = searchItems;
+            this.LastSortColumn = lastSortColumn;
+            this.LastSortDirection = lastSortDirection;
 
             PageSize = pageSize;
             TotalItemsCount = recordsCount;
