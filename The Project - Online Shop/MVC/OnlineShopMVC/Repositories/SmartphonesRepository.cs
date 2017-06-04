@@ -9,6 +9,10 @@ namespace Repositories
 {
     public class SmartphonesRepository : BaseRepository<Smartphone>
     {
+        public SmartphonesRepository(OnlineShopEntities context) : base(context)
+        {
+        }
+
         public override void Save(Smartphone smartphone)
         {
             if (smartphone.ID == 0)

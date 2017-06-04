@@ -9,6 +9,10 @@ namespace Repositories
 {
     public class ProductRepository : BaseRepository<Product>
     {
+        public ProductRepository(OnlineShopEntities context) : base(context)
+        {
+        }
+
         public override void Save(Product product)
         {
             if (product.ID == 0)

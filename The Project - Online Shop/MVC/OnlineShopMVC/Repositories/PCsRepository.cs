@@ -9,6 +9,10 @@ namespace Repositories
 {
     public class PCsRepository : BaseRepository<PC>
     {
+        public PCsRepository(OnlineShopEntities context) : base(context)
+        {
+        }
+
         public override void Save(PC pc)
         {
             if (pc.ID == 0)

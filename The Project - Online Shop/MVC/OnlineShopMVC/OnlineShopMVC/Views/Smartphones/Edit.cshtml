@@ -7,7 +7,7 @@
 
 @Model.CategoryType
 @using (Html.BeginForm("Edit", "Smartphones", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+{ @Html.Hidden("CategoryID",3)
     <div class="form-horizontal">
         <hr />
         @Html.HiddenFor(model => model.ProductId)
@@ -29,8 +29,9 @@
                 @if (Model.ImagePath != null)
                 {
                     <img src="@Url.Content(Model.ImagePath)" width="300" alt="Image for @Model.Name" />
+                    @Html.Hidden("ImagePath",Model.ImagePath)
                 }
-                <input type="file" name="imageToUpload" required />
+                <input type="file" name="imageToUpload"/>
             </div>
         </div>
         <div class="form-group">
@@ -97,7 +98,7 @@
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
-
+       
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-primary normal-button" />

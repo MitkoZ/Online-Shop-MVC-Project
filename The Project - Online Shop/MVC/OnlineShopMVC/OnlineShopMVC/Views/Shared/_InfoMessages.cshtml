@@ -17,5 +17,7 @@
             @TempData["Message"]
         </h3>
     }
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 }
 

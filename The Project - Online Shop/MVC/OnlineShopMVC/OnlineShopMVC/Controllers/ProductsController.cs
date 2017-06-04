@@ -15,8 +15,8 @@ namespace OnlineShopMVC.Controllers
         {
             if (LoginUserSession.Current.IsAuthenticated)
             {
-                ProductRepository productRepo = new ProductRepository();
-                Product product = productRepo.GetAll().FirstOrDefault(item => item.ID == productID);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                Product product = unitOfWork.ProductRepository.GetAll().FirstOrDefault(item => item.ID == productID);
                 CartSession.Current.Products.Add(product);
                 ViewBag.Message = "Product added to cart successfully!";
             }
@@ -36,7 +36,7 @@ namespace OnlineShopMVC.Controllers
         public ActionResult Order()
         {
             ViewBag.Message = "Order made successfully!";
-            SalesRepository salesRepo = new SalesRepository();
+            UnitOfWork unitOfWork = new UnitOfWork();
             List<Product> products = CartSession.Current.Products;
             foreach (var product in products)
             {
@@ -44,7 +44,7 @@ namespace OnlineShopMVC.Controllers
                 sale.ProductID = product.ID;
                 sale.UserID = LoginUserSession.Current.UserID;
                 sale.DateBought = DateTime.Now;
-                salesRepo.Save(sale);
+                unitOfWork.SalesRepository.Save(sale);
             }
             CartSession.Current.OnLogoutDelete();
             return View("Index");

@@ -21,9 +21,14 @@ namespace Repositories
             }
         }
 
-        public BaseRepository()
+        public BaseRepository():this(new OnlineShopEntities())
         {
-            Context = new OnlineShopEntities();
+
+        }
+
+        public BaseRepository(OnlineShopEntities context)
+        {
+            Context = context;
         }
 
         public List<T> GetAll()
@@ -49,7 +54,6 @@ namespace Repositories
         public void Create(T item)
         {
             Context.Set<T>().Add(item);
-            Context.SaveChanges();
         }
         public void Update(T item, Func<T, bool> findByIDPredicate)
         {
@@ -61,32 +65,24 @@ namespace Repositories
                 Context.Entry(local).State = EntityState.Detached;
             }
             Context.Entry(item).State = EntityState.Modified;
-            Context.SaveChanges();
         }
-        public bool DeleteByID(int id)
+
+        public void DeleteByID(int id)
         {
-            bool isDeleted = false;
             T dbItem = Context.Set<T>().Find(id);
             if (dbItem != null)
             {
                 Context.Set<T>().Remove(dbItem);
-                int recordsChanged = Context.SaveChanges();
-                isDeleted = recordsChanged > 0;
             }
-            return isDeleted;
         }
         
-        public bool DeleteByPredicate(Func<T,bool> filter)
+        public void DeleteByPredicate(Func<T,bool> filter)
         {
-            bool isDeleted = false;
             T dbItem = Context.Set<T>().FirstOrDefault(filter);
             if (dbItem != null)
             {
                 Context.Set<T>().Remove(dbItem);
-                int recordsChanged = Context.SaveChanges();
-                isDeleted = recordsChanged > 0;
             }
-            return isDeleted;
         }
 
 

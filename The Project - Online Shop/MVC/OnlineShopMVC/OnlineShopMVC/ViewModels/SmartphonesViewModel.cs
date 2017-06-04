@@ -36,10 +36,11 @@ namespace OnlineShopMVC.ViewModels
         public string CategoryType { get; set; }
         public string LastSortColumn { get; set; }
         public string LastSortDirection { get; set; }
-
+        public string ImageName { get; private set; }
 
         public SmartphonesViewModel(Product product, Smartphone smartphone)
         {
+            this.ImageName = product.ImageName;
             this.ProductId = product.ID;
             this.CategoryID = product.CategoryID;
             this.OS = product.OS;

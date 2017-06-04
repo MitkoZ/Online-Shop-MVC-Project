@@ -43,7 +43,7 @@
                 <a href="@Url.Action("ReturnCart", "Home")">
                     <img src="@Url.Content(@Path.Combine(@Constants.ImagesToolsDirectory,"shopping-cart.png"))" width="50" height="50" />
                 </a>
-           @if (LoginUserSession.Current.IsAuthenticated)
+           @if (LoginUserSession.Current.isAdmin)
            {
                <span class="navbar-text" style="color:yellow; font-size:20px">Hello @LoginUserSession.Current.Username </span>
                 <ul class="nav navbar-nav"><li class="nav-item active waves-effect waves-light">

@@ -9,6 +9,10 @@ namespace Repositories
 {
     public class SalesRepository : BaseRepository<Sale>
     {
+        public SalesRepository(OnlineShopEntities context) : base(context)
+        {
+        }
+
         public override void Save(Sale item)
         {
             Context.Sales.Add(item);

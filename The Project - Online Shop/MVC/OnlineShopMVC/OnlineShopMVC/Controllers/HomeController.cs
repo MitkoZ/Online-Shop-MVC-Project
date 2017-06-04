@@ -39,8 +39,8 @@ namespace OnlineShopMVC.Controllers
             if (ModelState.IsValid)
             {
                 // here we have to check if the username exists in the database
-                UserRepository userRepository = new UserRepository();
-                User dbUser = userRepository.GetUserByNameAndPassword(viewModel.Username, viewModel.Password);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                User dbUser = unitOfWork.UserRepository.GetUserByNameAndPassword(viewModel.Username, viewModel.Password);
 
                 bool isUserExists = dbUser != null;
                 if (isUserExists)
@@ -58,13 +58,11 @@ namespace OnlineShopMVC.Controllers
         [AllowAnonymous]
         public ActionResult Search(string keywords)
         {
-            PCsRepository pcRepo = new PCsRepository();
-            SmartphonesRepository smartphoneRepo = new SmartphonesRepository();
-            ProductRepository productRepo = new ProductRepository();
-            List<Product> pcProduct = productRepo.GetAll(pc => pc.CategoryID == 1 || pc.CategoryID == 2);
-            List<Product> smartphoneProduct=productRepo.GetAll(smartphone => smartphone.CategoryID == 3);
-            List<PC> computers=pcRepo.GetAll();
-            List<Smartphone> smartphones=smartphoneRepo.GetAll();
+            UnitOfWork unitOfWork = new UnitOfWork();
+            List<Product> pcProduct = unitOfWork.ProductRepository.GetAll(pc => pc.CategoryID == 1 || pc.CategoryID == 2);
+            List<Product> smartphoneProduct= unitOfWork.ProductRepository.GetAll(smartphone => smartphone.CategoryID == 3);
+            List<PC> computers= unitOfWork.PCsRepository.GetAll();
+            List<Smartphone> smartphones= unitOfWork.SmartphonesRepository.GetAll();
             PCsViewModel computersViewModel = new PCsViewModel(pcProduct, computers);
             SmartphonesViewModel smartphonesViewModel = new SmartphonesViewModel(smartphoneProduct, smartphones);
             IQueryable<PCsViewModel> pcRecords=computersViewModel.pcsViewModel.AsQueryable();
@@ -91,8 +89,8 @@ namespace OnlineShopMVC.Controllers
         public ActionResult Register()
         {
             // add the Cities to the Viewbag
-            CityRepository cityRepository = new CityRepository();
-            List<City> allCities = cityRepository.GetAll();
+            UnitOfWork unitOfWork = new UnitOfWork();
+            List<City> allCities = unitOfWork.CityRepository.GetAll();
             ViewBag.AllCities = new SelectList(allCities, "ID", "Name");
             return View();
         }
@@ -102,8 +100,8 @@ namespace OnlineShopMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserRepository userRepository = new UserRepository();
-                User existingDbUser = userRepository.GetUserByName(viewModel.Username);
+                UnitOfWork unitOfWork = new UnitOfWork();
+                User existingDbUser = unitOfWork.UserRepository.GetUserByName(viewModel.Username);
                 if (existingDbUser != null)
                 {
                     ModelState.AddModelError("", "This user is already registered in the system!");
@@ -117,14 +115,15 @@ namespace OnlineShopMVC.Controllers
                 dbUser.Address = viewModel.Address;
                 dbUser.CardNumber = viewModel.CardNumber;
                 dbUser.IsAdmin = false;
-                userRepository.RegisterUser(dbUser, viewModel.Password);
+                unitOfWork.UserRepository.RegisterUser(dbUser, viewModel.Password);
+                unitOfWork.Save();
                 TempData["Message"] = "User was registered successfully";
                 return RedirectToAction("Index");
             }
             else
             {
-                CityRepository cityRepository = new CityRepository();
-                List<City> allCities = cityRepository.GetAll();
+                UnitOfWork unitOfWork = new UnitOfWork();
+                List<City> allCities = unitOfWork.CityRepository.GetAll();
                 ViewBag.AllCities = new SelectList(allCities, "ID", "Name");
                 return View();
             }
@@ -135,9 +134,9 @@ namespace OnlineShopMVC.Controllers
             bool isEmailUsed = false;
             if (string.IsNullOrEmpty(email) == false)
             {
-                UserRepository userRepo = new UserRepository();
+                UnitOfWork unitOfWork = new UnitOfWork();
                 User isUserExist = new User();
-                isUserExist = userRepo.GetAll().FirstOrDefault(user => user.Email == email);
+                isUserExist = unitOfWork.UserRepository.GetAll().FirstOrDefault(user => user.Email == email);
                 if (!(isUserExist==null))
                 {
                     isEmailUsed = true;
@@ -151,9 +150,9 @@ namespace OnlineShopMVC.Controllers
             bool isUsernameUsed = false;
             if (string.IsNullOrEmpty(username) == false)
             {
-                UserRepository userRepo = new UserRepository();
+                UnitOfWork unitOfWork = new UnitOfWork();
                 User isUserExist = new User();
-                isUserExist = (userRepo.GetAll().FirstOrDefault(user => user.Username == username));
+                isUserExist = (unitOfWork.UserRepository.GetAll().FirstOrDefault(user => user.Username == username));
                 if (!(isUserExist == null))
                 {
                     isUsernameUsed = true;
@@ -179,11 +178,19 @@ namespace OnlineShopMVC.Controllers
             }
             if (ModelState.IsValid)
             {
-                CityRepository cityRepo = new CityRepository();
+                UnitOfWork unitOfWork = new UnitOfWork();
                 City cityInput = new City();
                 cityInput.Name = viewModel.Name;
-                cityRepo.Save(cityInput);
-                TempData["Message"] = "City added successfully";
+                unitOfWork.CityRepository.Save(cityInput);
+                bool isAdded = unitOfWork.Save() > 0;
+                if (isAdded)
+                {
+                    TempData["Message"] = "City added successfully";
+                }
+                else
+                {
+                    TempData["Message"] = "Ooops something went wrong";
+                }
                 return RedirectToAction("Index", "Home");
             }
             
@@ -195,9 +202,9 @@ namespace OnlineShopMVC.Controllers
             bool isCityExist = false;
             if (string.IsNullOrEmpty(Name) == false)
             {
-                CityRepository cityRepository = new CityRepository();
+                UnitOfWork unitOfWork = new UnitOfWork();
                 City dbCity = new City();
-                dbCity = cityRepository.GetAll().FirstOrDefault(category => category.Name == Name);
+                dbCity = unitOfWork.CityRepository.GetAll().FirstOrDefault(category => category.Name == Name);
                 if (!(dbCity == null))
                 {
                     isCityExist = true;

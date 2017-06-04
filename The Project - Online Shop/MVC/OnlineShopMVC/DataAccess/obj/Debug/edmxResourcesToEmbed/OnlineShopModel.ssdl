@@ -34,7 +34,7 @@
     <Property Name="Storage" Type="int" Nullable="false" />
     <Property Name="OS" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Price" Type="money" Nullable="false" />
-    <Property Name="ImageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ImageName" Type="nvarchar" MaxLength="500" Nullable="false" />
   </EntityType>
   <EntityType Name="Sales">
     <Key>

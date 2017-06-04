@@ -10,6 +10,11 @@ namespace Repositories
 {
     public class UserRepository : BaseRepository<User>
     {
+        public UserRepository(OnlineShopEntities context):base(context)
+        {
+            this.Context = context;
+        }
+
         public override void Save(User user)
         {
             if (user.ID == 0)
