@@ -16,7 +16,6 @@ namespace Repositories
         public override void Save(Sale item)
         {
             Context.Sales.Add(item);
-            Context.SaveChanges();
         }
     }
 }

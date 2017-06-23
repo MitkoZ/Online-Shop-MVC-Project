@@ -46,6 +46,7 @@ namespace OnlineShopMVC.Controllers
                 sale.DateBought = DateTime.Now;
                 unitOfWork.SalesRepository.Save(sale);
             }
+            unitOfWork.Save();
             CartSession.Current.OnLogoutDelete();
             return View("Index");
         }
